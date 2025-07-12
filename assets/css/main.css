@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for smooth dark mode transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure dark mode transitions work on html element */
+html {
+  transition-property: background-color;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom dark mode styles */
+@layer base {
+  /* Dark mode color scheme */
+  .dark {
+    color-scheme: dark;
+  }
+  
+  /* Light mode color scheme */
+  :root:not(.dark) {
+    color-scheme: light;
+  }
+}
+
+/* Improved focus styles for dark mode */
+@layer utilities {
+  .focus-visible:focus-visible {
+    @apply ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-800;
+  }
+}
