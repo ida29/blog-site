@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     },
   },
   app: {
+    baseURL: '/blog-site/',
     head: {
       title: 'モダンブログサイト',
       meta: [
@@ -18,8 +19,9 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Nuxt & TailwindCSSで作成したモダンなブログサイト' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'icon', type: 'image/x-icon', href: '/blog-site/favicon.ico' }
       ]
     }
-  }
+  },
+  ssr: true
 })
