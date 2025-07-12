@@ -4,8 +4,8 @@ export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
   
   // 環境変数の取得とフォールバック
-  const supabaseUrl = config.public.supabaseUrl || process.env.SUPABASE_URL
-  const supabaseAnonKey = config.public.supabaseAnonKey || process.env.SUPABASE_ANON_KEY
+  const supabaseUrl = config.public.supabaseUrl || process.env.NUXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = config.public.supabaseAnonKey || process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY
   
   console.log('Supabase設定確認:')
   console.log('URL:', supabaseUrl ? '設定済み' : '未設定')
