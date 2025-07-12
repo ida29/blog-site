@@ -12,11 +12,11 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/blog-site/',
     head: {
-      title: 'モダンブログサイト',
+      title: 'yidaのtechブログ',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Nuxt & TailwindCSSで作成したモダンなブログサイト' }
+        { name: 'description', content: 'エンジニアyidaの技術ブログ。Web開発、プログラミング、新技術について発信しています。' }
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/blog-site/favicon.ico' }

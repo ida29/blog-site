@@ -4,11 +4,11 @@
     <section class="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white py-20 transition-colors duration-200">
       <div class="container mx-auto px-6 text-center">
         <h1 class="text-5xl font-bold mb-6">
-          モダンブログサイトへようこそ
+          Welcome to yida's tech blog
         </h1>
         <p class="text-xl mb-8 max-w-2xl mx-auto">
-          Nuxt.jsとTailwindCSSで作成された、美しく機能的なブログプラットフォーム。
-          あなたの考えや体験を世界に発信しましょう。
+          エンジニアyidaが技術に関する学びや体験を共有するブログです。
+          Web開発、プログラミング、新技術の探求について発信しています。
         </p>
         <div class="space-x-4">
           <NuxtLink to="/articles/new" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-200">
@@ -25,9 +25,9 @@
     <section class="py-16">
       <div class="container mx-auto px-6">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-4">サイトの特徴</h2>
+          <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-4">このブログについて</h2>
           <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            モダンな技術スタックと直感的なUIで、快適な執筆・読書体験を提供します
+            技術の学習記録、開発での気づき、新しい技術の検証結果などを発信しています
           </p>
         </div>
         <div class="grid md:grid-cols-3 gap-8">
@@ -37,8 +37,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">簡単な記事投稿</h3>
-            <p class="text-gray-600 dark:text-gray-400">直感的なエディターで、誰でも簡単に美しい記事を作成できます</p>
+            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">学習記録</h3>
+            <p class="text-gray-600 dark:text-gray-400">新しい技術やツールを学んだ過程と結果を記録し、共有しています</p>
           </div>
           <div class="text-center">
             <div class="bg-green-100 dark:bg-green-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -46,8 +46,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">高速パフォーマンス</h3>
-            <p class="text-gray-600 dark:text-gray-400">Nuxt.jsの最適化により、快適な閲覧体験を実現しています</p>
+            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">実践的な内容</h3>
+            <p class="text-gray-600 dark:text-gray-400">実際の開発で得た知見やハマった問題の解決方法を実践的に紹介</p>
           </div>
           <div class="text-center">
             <div class="bg-purple-100 dark:bg-purple-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -55,8 +55,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">レスポンシブデザイン</h3>
-            <p class="text-gray-600 dark:text-gray-400">あらゆるデバイスで美しく表示される、モバイルファーストなデザイン</p>
+            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">技術探求</h3>
+            <p class="text-gray-600 dark:text-gray-400">フロントエンド・バックエンド・インフラなど幅広い技術領域を探求</p>
           </div>
         </div>
       </div>
@@ -66,8 +66,8 @@
     <section class="bg-gray-100 dark:bg-gray-800 py-16 transition-colors duration-200">
       <div class="container mx-auto px-6">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-4">最新の記事</h2>
-          <p class="text-gray-600 dark:text-gray-400">最近投稿された記事をチェックしてみてください</p>
+          <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-4">最新の投稿</h2>
+          <p class="text-gray-600 dark:text-gray-400">最近の技術記事や学習記録をチェックしてみてください</p>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <article v-for="article in recentArticles" :key="article.id" class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
@@ -118,9 +118,9 @@ const recentArticles = ref([
 ])
 
 useHead({
-  title: 'ホーム - モダンブログサイト',
+  title: 'ホーム - yidaのtechブログ',
   meta: [
-    { name: 'description', content: 'Nuxt.jsとTailwindCSSで作成されたモダンなブログサイト。記事の投稿・閲覧ができます。' }
+    { name: 'description', content: 'エンジニアyidaの技術ブログ。Web開発、プログラミング、新技術について学習記録と実践的な知見を発信しています。' }
   ]
 })
 </script>

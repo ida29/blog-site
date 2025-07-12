@@ -4,7 +4,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <NuxtLink to="/" class="text-2xl font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
-            モダンブログ
+            yidaのtechブログ
           </NuxtLink>
         </div>
         <div class="hidden md:flex items-center space-x-6">

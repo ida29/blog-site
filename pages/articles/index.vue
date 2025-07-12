@@ -205,9 +205,9 @@ const formatDate = (dateString) => {
 }
 
 useHead({
-  title: '記事一覧 - モダンブログサイト',
+  title: '記事一覧 - yidaのtechブログ',
   meta: [
-    { name: 'description', content: '投稿された記事の一覧をご覧いただけます。' }
+    { name: 'description', content: 'yidaが投稿した技術記事の一覧をご覧いただけます。Web開発、プログラミング、新技術について発信しています。' }
   ]
 })
 </script>

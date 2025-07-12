@@ -213,9 +213,9 @@ const saveDraft = async () => {
 }
 
 useHead({
-  title: '新しい記事を投稿 - モダンブログサイト',
+  title: '新しい記事を投稿 - yidaのtechブログ',
   meta: [
-    { name: 'description', content: '新しいブログ記事を投稿してください。' }
+    { name: 'description', content: '新しい技術記事を投稿してください。' }
   ]
 })
 </script>

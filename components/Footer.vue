@@ -3,14 +3,14 @@
     <div class="container mx-auto px-6 py-8">
       <div class="flex flex-col md:flex-row items-center justify-between">
         <div class="mb-4 md:mb-0">
-          <h3 class="text-xl font-bold">モダンブログ</h3>
-          <p class="text-gray-400 mt-2">Nuxt & TailwindCSSで作成したモダンなブログサイト</p>
+          <h3 class="text-xl font-bold">yidaのtechブログ</h3>
+          <p class="text-gray-400 mt-2">技術学習と開発の記録を発信するエンジニアブログ</p>
         </div>
         <div class="flex space-x-6">
-          <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+          <a href="https://twitter.com/yida" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-200">
             Twitter
           </a>
-          <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+          <a href="https://github.com/ida29" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-200">
             GitHub
           </a>
           <a href="#" class="text-gray-400 hover:text-white transition duration-200">
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="mt-8 pt-8 border-t border-gray-700 text-center">
-        <p class="text-gray-400">&copy; 2025 モダンブログ. All rights reserved.</p>
+        <p class="text-gray-400">&copy; 2025 yida. All rights reserved.</p>
       </div>
     </div>
   </footer>
