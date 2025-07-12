@@ -7,18 +7,35 @@ export default defineNuxtPlugin(() => {
   const supabaseUrl = config.public.supabaseUrl || process.env.SUPABASE_URL
   const supabaseAnonKey = config.public.supabaseAnonKey || process.env.SUPABASE_ANON_KEY
   
+  console.log('Supabase設定確認:')
+  console.log('URL:', supabaseUrl ? '設定済み' : '未設定')
+  console.log('Key:', supabaseAnonKey ? '設定済み' : '未設定')
+  
+  // 環境変数が設定されていない場合はnullを返してフォールバック処理に委ねる
   if (!supabaseUrl || !supabaseAnonKey) {
-    console.error('Supabase環境変数が設定されていません')
-    console.error('SUPABASE_URL:', supabaseUrl)
-    console.error('SUPABASE_ANON_KEY:', supabaseAnonKey ? '設定済み' : '未設定')
-    throw new Error('Supabase環境変数が設定されていません')
+    console.warn('Supabase環境変数が設定されていません。ローカルストレージフォールバックを使用します。')
+    return {
+      provide: {
+        supabase: null
+      }
+    }
   }
   
-  const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-  return {
-    provide: {
-      supabase
+  try {
+    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    console.log('Supabaseクライアント初期化成功')
+    
+    return {
+      provide: {
+        supabase
+      }
+    }
+  } catch (error) {
+    console.error('Supabaseクライアント初期化エラー:', error)
+    return {
+      provide: {
+        supabase: null
+      }
     }
   }
 })
