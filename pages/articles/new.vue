@@ -98,16 +98,31 @@
             <button
               type="button"
               @click="saveDraft"
-              class="bg-yellow-500 dark:bg-yellow-600 text-white px-6 py-2 rounded-md hover:bg-yellow-600 dark:hover:bg-yellow-700 transition duration-200"
+              :disabled="isSubmitting"
+              class="bg-yellow-500 dark:bg-yellow-600 text-white px-6 py-2 rounded-md hover:bg-yellow-600 dark:hover:bg-yellow-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-200"
             >
-              下書き保存
+              <span v-if="isSubmitting" class="flex items-center">
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                保存中...
+              </span>
+              <span v-else>下書き保存</span>
             </button>
             <button
               type="submit"
-              :disabled="!isFormValid"
+              :disabled="!isFormValid || isSubmitting"
               class="bg-blue-600 dark:bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition duration-200"
             >
-              記事を投稿
+              <span v-if="isSubmitting" class="flex items-center">
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                投稿中...
+              </span>
+              <span v-else>記事を投稿</span>
             </button>
           </div>
         </div>
@@ -140,23 +155,24 @@ const isFormValid = computed(() => {
          article.value.content.trim()
 })
 
+const { createArticle } = useArticles()
+const isSubmitting = ref(false)
+
 const submitArticle = async () => {
-  if (!isFormValid.value) return
+  if (!isFormValid.value || isSubmitting.value) return
 
   try {
-    // ここで実際のAPIへの投稿処理を行う
-    // 現在はローカルストレージに保存
-    const articles = JSON.parse(localStorage.getItem('articles') || '[]')
+    isSubmitting.value = true
+    
     const newArticle = {
-      id: Date.now(),
-      ...article.value,
+      title: article.value.title,
+      excerpt: article.value.excerpt,
+      content: article.value.content,
       tags: parsedTags.value,
-      date: new Date().toISOString().split('T')[0],
       status: 'published'
     }
     
-    articles.unshift(newArticle)
-    localStorage.setItem('articles', JSON.stringify(articles))
+    await createArticle(newArticle)
 
     // 成功メッセージ
     alert('記事が正常に投稿されました！')
@@ -166,27 +182,33 @@ const submitArticle = async () => {
   } catch (error) {
     console.error('記事の投稿に失敗しました:', error)
     alert('記事の投稿に失敗しました。もう一度お試しください。')
+  } finally {
+    isSubmitting.value = false
   }
 }
 
-const saveDraft = () => {
+const saveDraft = async () => {
+  if (isSubmitting.value) return
+
   try {
-    const drafts = JSON.parse(localStorage.getItem('drafts') || '[]')
+    isSubmitting.value = true
+    
     const draft = {
-      id: Date.now(),
-      ...article.value,
+      title: article.value.title,
+      excerpt: article.value.excerpt,
+      content: article.value.content,
       tags: parsedTags.value,
-      date: new Date().toISOString().split('T')[0],
       status: 'draft'
     }
     
-    drafts.unshift(draft)
-    localStorage.setItem('drafts', JSON.stringify(drafts))
+    await createArticle(draft)
     
     alert('下書きが保存されました！')
   } catch (error) {
     console.error('下書きの保存に失敗しました:', error)
     alert('下書きの保存に失敗しました。')
+  } finally {
+    isSubmitting.value = false
   }
 }
 

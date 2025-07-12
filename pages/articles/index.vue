@@ -41,8 +41,28 @@
         </div>
       </div>
 
+      <!-- ローディング状態 -->
+      <div v-if="loading" class="text-center py-12">
+        <div class="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+        <p class="text-gray-600 dark:text-gray-400">記事を読み込み中...</p>
+      </div>
+
+      <!-- エラー状態 -->
+      <div v-else-if="error" class="text-center py-12">
+        <div class="text-red-400 mb-4">
+          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">エラーが発生しました</h3>
+        <p class="text-gray-500 dark:text-gray-500 mb-6">{{ error }}</p>
+        <button @click="$router.go(0)" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
+          再読み込み
+        </button>
+      </div>
+
       <!-- 記事がない場合 -->
-      <div v-if="filteredArticles.length === 0" class="text-center py-12">
+      <div v-else-if="filteredArticles.length === 0" class="text-center py-12">
         <div class="text-gray-400 mb-4">
           <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
@@ -76,7 +96,7 @@
             
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-4">
-                <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(article.date) }}</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(article.published_at || article.created_at) }}</span>
                 <div v-if="article.tags && article.tags.length > 0" class="flex gap-2">
                   <span
                     v-for="tag in article.tags.slice(0, 3)"
@@ -112,74 +132,44 @@
 </template>
 
 <script setup>
+const { getPublishedArticles, getAllTags } = useArticles()
+
 const searchQuery = ref('')
 const selectedTag = ref('')
 const sortBy = ref('date')
 const articles = ref([])
+const allTags = ref([])
+const loading = ref(true)
+const error = ref(null)
 
-// サンプルデータの初期化
-onMounted(() => {
-  // ローカルストレージから記事を取得
-  const savedArticles = localStorage.getItem('articles')
-  if (savedArticles) {
-    articles.value = JSON.parse(savedArticles)
-  } else {
-    // サンプルデータがない場合は初期データを設定
-    const sampleArticles = [
-      {
-        id: 1,
-        title: "Nuxt.js 3の新機能について",
-        excerpt: "Nuxt.js 3で追加された新機能とその活用方法について詳しく解説します。サーバーサイドレンダリングの改善やTypeScriptサポートの強化など、開発者にとって嬉しい機能が盛りだくさんです。",
-        content: "Nuxt.js 3では多くの新機能が追加されました。特に注目すべきは...",
-        tags: ["Nuxt.js", "Vue.js", "JavaScript"],
-        date: "2025-01-15",
-        status: 'published'
-      },
-      {
-        id: 2,
-        title: "TailwindCSSでモダンなデザインを作成",
-        excerpt: "TailwindCSSを使って効率的にモダンなWebデザインを作成する方法をご紹介します。ユーティリティファーストのアプローチで開発速度を向上させましょう。",
-        content: "TailwindCSSは近年人気が高まっているCSSフレームワークです...",
-        tags: ["TailwindCSS", "CSS", "Design"],
-        date: "2025-01-10",
-        status: 'published'
-      },
-      {
-        id: 3,
-        title: "JAMstackアーキテクチャの利点",
-        excerpt: "JAMstackアーキテクチャがなぜ注目されているのか、その利点を詳しく説明します。パフォーマンス、セキュリティ、開発者体験の向上について解説。",
-        content: "JAMstackは JavaScript、APIs、Markup の略で...",
-        tags: ["JAMstack", "Architecture", "Performance"],
-        date: "2025-01-05",
-        status: 'published'
-      }
-    ]
-    articles.value = sampleArticles
-    localStorage.setItem('articles', JSON.stringify(sampleArticles))
+// データを取得
+onMounted(async () => {
+  try {
+    loading.value = true
+    const [articlesData, tagsData] = await Promise.all([
+      getPublishedArticles(),
+      getAllTags()
+    ])
+    articles.value = articlesData
+    allTags.value = tagsData
+  } catch (err) {
+    console.error('記事の取得に失敗しました:', err)
+    error.value = '記事の読み込みに失敗しました。'
+  } finally {
+    loading.value = false
   }
-})
-
-// すべてのタグを取得
-const allTags = computed(() => {
-  const tags = new Set()
-  articles.value.forEach(article => {
-    if (article.tags) {
-      article.tags.forEach(tag => tags.add(tag))
-    }
-  })
-  return Array.from(tags).sort()
 })
 
 // フィルタリングされた記事
 const filteredArticles = computed(() => {
-  let filtered = articles.value.filter(article => article.status === 'published')
+  let filtered = [...articles.value]
 
   // 検索クエリでフィルタリング
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     filtered = filtered.filter(article =>
       article.title.toLowerCase().includes(query) ||
-      article.excerpt.toLowerCase().includes(query) ||
+      (article.excerpt && article.excerpt.toLowerCase().includes(query)) ||
       article.content.toLowerCase().includes(query)
     )
   }
@@ -194,7 +184,7 @@ const filteredArticles = computed(() => {
   // ソート
   filtered.sort((a, b) => {
     if (sortBy.value === 'date') {
-      return new Date(b.date) - new Date(a.date)
+      return new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at)
     } else if (sortBy.value === 'title') {
       return a.title.localeCompare(b.title)
     }
