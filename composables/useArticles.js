@@ -1,5 +1,11 @@
 export const useArticles = () => {
   const { $supabase } = useNuxtApp()
+  
+  // Supabaseが利用できない場合のフォールバック
+  if (!$supabase) {
+    console.warn('Supabaseが利用できません。ローカルストレージを使用します。')
+    return useLocalStorageArticles()
+  }
 
   // 記事一覧を取得
   const getArticles = async (filters = {}) => {
