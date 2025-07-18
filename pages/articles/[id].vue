@@ -126,7 +126,8 @@ const { getArticle, getRelatedArticles } = useArticles()
 const article = ref(null)
 const relatedArticles = ref([])
 
-onMounted(async () => {
+// SSRとクライアントサイドの両方で動作するように設定
+const fetchArticleData = async () => {
   const articleId = route.params.id
   
   // 記事を取得
@@ -144,6 +145,13 @@ onMounted(async () => {
   } catch (error) {
     console.error('記事の取得に失敗しました:', error)
   }
+}
+
+// クライアントサイドでのみ実行
+onMounted(async () => {
+  // サンプルデータの初期化を待つ
+  await nextTick()
+  await fetchArticleData()
 })
 
 // 日付フォーマット

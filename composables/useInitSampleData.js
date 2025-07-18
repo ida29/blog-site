@@ -1,6 +1,11 @@
 // サンプルデータの初期化
 export const useInitSampleData = () => {
+  // SSR中かどうかをチェック
+  const isClient = process.client
   const initSampleArticles = () => {
+    // SSR中は何もしない
+    if (!isClient) return
+    
     // すでに記事が存在する場合は何もしない
     const existingArticles = localStorage.getItem('articles')
     if (existingArticles && JSON.parse(existingArticles).length > 0) {

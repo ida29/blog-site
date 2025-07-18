@@ -9,8 +9,8 @@ export default defineNuxtPlugin(async () => {
   console.log('URL:', supabaseUrl ? '設定済み' : '未設定')
   console.log('Key:', supabaseAnonKey ? '設定済み' : '未設定')
   
-  // 環境変数が設定されていない場合はnullを返してフォールバック処理に委ねる
-  if (!supabaseUrl || !supabaseAnonKey) {
+  // 環境変数が設定されていない場合（空文字列も含む）はnullを返してフォールバック処理に委ねる
+  if (!supabaseUrl || !supabaseAnonKey || supabaseUrl === '' || supabaseAnonKey === '') {
     console.warn('Supabase環境変数が設定されていません。ローカルストレージフォールバックを使用します。')
     return {
       provide: {

@@ -1,8 +1,11 @@
 // ローカルストレージを使用した記事管理（フォールバック）
 export const useLocalStorageArticles = () => {
+  // SSR中かどうかをチェック
+  const isClient = process.client
   // 記事一覧を取得
   const getArticles = async (filters = {}) => {
     try {
+      if (!isClient) return []
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
       let filtered = articles.filter(article => article.status === 'published')
 
@@ -35,6 +38,7 @@ export const useLocalStorageArticles = () => {
   // 公開記事一覧を取得
   const getPublishedArticles = async (limit = null) => {
     try {
+      if (!isClient) return []
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
       let filtered = articles.filter(article => article.status === 'published')
       filtered = filtered.sort((a, b) => new Date(b.date || b.created_at) - new Date(a.date || a.created_at))
@@ -53,6 +57,7 @@ export const useLocalStorageArticles = () => {
   // 記事を取得（ID指定）
   const getArticle = async (id) => {
     try {
+      if (!isClient) return null
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
       return articles.find(article => article.id == id) || null
     } catch (error) {
@@ -64,6 +69,7 @@ export const useLocalStorageArticles = () => {
   // 記事を作成
   const createArticle = async (articleData) => {
     try {
+      if (!isClient) throw new Error('Cannot create article during SSR')
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
       const newArticle = {
         id: Date.now(),
@@ -86,6 +92,7 @@ export const useLocalStorageArticles = () => {
   // 記事を更新
   const updateArticle = async (id, articleData) => {
     try {
+      if (!isClient) throw new Error('Cannot update article during SSR')
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
       const index = articles.findIndex(article => article.id == id)
       
@@ -110,6 +117,7 @@ export const useLocalStorageArticles = () => {
   // 記事を削除
   const deleteArticle = async (id) => {
     try {
+      if (!isClient) throw new Error('Cannot delete article during SSR')
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
       const filtered = articles.filter(article => article.id != id)
       localStorage.setItem('articles', JSON.stringify(filtered))
@@ -123,6 +131,7 @@ export const useLocalStorageArticles = () => {
   // 全タグを取得
   const getAllTags = async () => {
     try {
+      if (!isClient) return []
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
       const allTags = new Set()
       
@@ -145,6 +154,7 @@ export const useLocalStorageArticles = () => {
   const getRelatedArticles = async (currentId, tags = [], limit = 3) => {
     try {
       if (!tags.length) return []
+      if (!isClient) return []
       
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
       return articles
