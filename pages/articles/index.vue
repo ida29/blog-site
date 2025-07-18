@@ -133,6 +133,7 @@
 
 <script setup>
 const { getPublishedArticles, getAllTags } = useArticles()
+const { initSampleArticles } = useInitSampleData()
 
 const searchQuery = ref('')
 const selectedTag = ref('')
@@ -146,6 +147,12 @@ const error = ref(null)
 onMounted(async () => {
   try {
     loading.value = true
+    
+    // サンプルデータの初期化を確認（クライアントサイドのみ）
+    if (process.client) {
+      initSampleArticles()
+    }
+    
     const [articlesData, tagsData] = await Promise.all([
       getPublishedArticles(),
       getAllTags()

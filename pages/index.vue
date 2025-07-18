@@ -103,6 +103,7 @@
 
 <script setup>
 const { getPublishedArticles } = useArticles()
+const { initSampleArticles } = useInitSampleData()
 const recentArticles = ref([])
 const loading = ref(true)
 
@@ -120,6 +121,12 @@ const formatDate = (dateString) => {
 onMounted(async () => {
   try {
     loading.value = true
+    
+    // サンプルデータの初期化を確認（クライアントサイドのみ）
+    if (process.client) {
+      initSampleArticles()
+    }
+    
     // 最新3件を取得
     const articles = await getPublishedArticles(3)
     recentArticles.value = articles

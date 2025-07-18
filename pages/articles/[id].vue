@@ -123,14 +123,20 @@
 <script setup>
 const route = useRoute()
 const { getArticle, getRelatedArticles } = useArticles()
+const { initSampleArticles } = useInitSampleData()
 const article = ref(null)
 const relatedArticles = ref([])
 
-onMounted(async () => {
+// 記事の取得処理
+const fetchArticleData = async () => {
   const articleId = route.params.id
   
-  // 記事を取得
   try {
+    // まずサンプルデータの初期化を確認（クライアントサイドのみ）
+    if (process.client) {
+      initSampleArticles()
+    }
+    
     const fetchedArticle = await getArticle(articleId)
     if (fetchedArticle && fetchedArticle.status === 'published') {
       article.value = fetchedArticle
@@ -144,6 +150,11 @@ onMounted(async () => {
   } catch (error) {
     console.error('記事の取得に失敗しました:', error)
   }
+}
+
+// クライアントサイドでのみ実行
+onMounted(async () => {
+  await fetchArticleData()
 })
 
 // 日付フォーマット
