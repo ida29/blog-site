@@ -132,7 +132,12 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'auth'
+})
+
 const router = useRouter()
+const { canPostArticle } = useAuth()
 
 const article = ref({
   title: '',
