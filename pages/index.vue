@@ -69,14 +69,21 @@
           <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-4">最新の投稿</h2>
           <p class="text-gray-600 dark:text-gray-400">最近の技術記事や学習記録をチェックしてみてください</p>
         </div>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div v-if="loading" class="text-center py-12">
+          <div class="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p class="text-gray-600 dark:text-gray-400">記事を読み込み中...</p>
+        </div>
+        <div v-else-if="recentArticles.length === 0" class="text-center py-12">
+          <p class="text-gray-600 dark:text-gray-400">まだ記事がありません。最初の記事を投稿してみましょう！</p>
+        </div>
+        <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <article v-for="article in recentArticles" :key="article.id" class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
             <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500"></div>
             <div class="p-6">
               <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">{{ article.title }}</h3>
               <p class="text-gray-600 dark:text-gray-400 mb-4">{{ article.excerpt }}</p>
               <div class="flex items-center justify-between">
-                <span class="text-sm text-gray-500 dark:text-gray-400">{{ article.date }}</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(article.published_at || article.created_at || article.date) }}</span>
                 <NuxtLink :to="`/articles/${article.id}`" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
                   続きを読む →
                 </NuxtLink>
@@ -95,27 +102,33 @@
 </template>
 
 <script setup>
-// Sample data - 実際のアプリではAPIから取得
-const recentArticles = ref([
-  {
-    id: 1,
-    title: "Nuxt.js 3の新機能について",
-    excerpt: "Nuxt.js 3で追加された新機能とその活用方法について詳しく解説します。",
-    date: "2025-01-15"
-  },
-  {
-    id: 2,
-    title: "TailwindCSSでモダンなデザインを作成",
-    excerpt: "TailwindCSSを使って効率的にモダンなWebデザインを作成する方法をご紹介。",
-    date: "2025-01-10"
-  },
-  {
-    id: 3,
-    title: "JAMstackアーキテクチャの利点",
-    excerpt: "JAMstackアーキテクチャがなぜ注目されているのか、その利点を詳しく説明します。",
-    date: "2025-01-05"
+const { getPublishedArticles } = useArticles()
+const recentArticles = ref([])
+const loading = ref(true)
+
+// 日付フォーマット
+const formatDate = (dateString) => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('ja-JP', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
+// 最新の記事を取得
+onMounted(async () => {
+  try {
+    loading.value = true
+    // 最新3件を取得
+    const articles = await getPublishedArticles(3)
+    recentArticles.value = articles
+  } catch (error) {
+    console.error('記事の取得に失敗しました:', error)
+  } finally {
+    loading.value = false
   }
-])
+})
 
 useHead({
   title: 'ホーム - yidaのtechブログ',

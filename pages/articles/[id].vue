@@ -18,7 +18,7 @@
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
-              {{ formatDate(article.date) }}
+              {{ formatDate(article.published_at || article.created_at || article.date) }}
             </div>
             
             <div v-if="article.tags && article.tags.length > 0" class="flex items-center gap-2">
@@ -91,7 +91,7 @@
               </h3>
               <p class="text-gray-600 dark:text-gray-400 text-sm mb-3">{{ relatedArticle.excerpt.substring(0, 100) }}...</p>
               <div class="flex items-center justify-between">
-                <span class="text-xs text-gray-500 dark:text-gray-400">{{ formatDate(relatedArticle.date) }}</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{ formatDate(relatedArticle.published_at || relatedArticle.created_at || relatedArticle.date) }}</span>
                 <NuxtLink :to="`/articles/${relatedArticle.id}`" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm">
                   読む →
                 </NuxtLink>
@@ -122,29 +122,27 @@
 
 <script setup>
 const route = useRoute()
+const { getArticle, getRelatedArticles } = useArticles()
 const article = ref(null)
 const relatedArticles = ref([])
 
-onMounted(() => {
-  const articles = JSON.parse(localStorage.getItem('articles') || '[]')
-  const articleId = parseInt(route.params.id)
+onMounted(async () => {
+  const articleId = route.params.id
   
   // 記事を取得
-  article.value = articles.find(a => a.id === articleId && a.status === 'published')
-  
-  if (article.value) {
-    // 関連記事を取得（同じタグを持つ記事から最大3件）
-    const related = articles
-      .filter(a => 
-        a.id !== articleId && 
-        a.status === 'published' &&
-        a.tags && 
-        article.value.tags &&
-        a.tags.some(tag => article.value.tags.includes(tag))
-      )
-      .slice(0, 3)
-    
-    relatedArticles.value = related
+  try {
+    const fetchedArticle = await getArticle(articleId)
+    if (fetchedArticle && fetchedArticle.status === 'published') {
+      article.value = fetchedArticle
+      
+      // 関連記事を取得
+      if (fetchedArticle.tags && fetchedArticle.tags.length > 0) {
+        const related = await getRelatedArticles(fetchedArticle.id, fetchedArticle.tags, 3)
+        relatedArticles.value = related
+      }
+    }
+  } catch (error) {
+    console.error('記事の取得に失敗しました:', error)
   }
 })
 
