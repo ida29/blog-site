@@ -68,11 +68,20 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">記事がまだありません</h3>
-        <p class="text-gray-500 dark:text-gray-500 mb-6">最初の記事を投稿してみましょう！</p>
-        <NuxtLink to="/articles/new" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
-          記事を投稿する
-        </NuxtLink>
+        <h3 class="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
+          {{ searchQuery || selectedTag ? '該当する記事が見つかりません' : '記事がまだありません' }}
+        </h3>
+        <p class="text-gray-500 dark:text-gray-500 mb-6">
+          {{ searchQuery || selectedTag ? '検索条件を変更してみてください。' : '最初の記事を投稿してみましょう！' }}
+        </p>
+        <div class="space-x-4">
+          <NuxtLink to="/articles/new" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 inline-block">
+            記事を投稿する
+          </NuxtLink>
+          <NuxtLink v-if="!searchQuery && !selectedTag && articles.length === 0" to="/init" class="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition duration-200 inline-block">
+            サンプルデータを追加
+          </NuxtLink>
+        </div>
       </div>
 
       <!-- 記事一覧 -->
