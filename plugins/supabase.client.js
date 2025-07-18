@@ -1,6 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin(async () => {
   const config = useRuntimeConfig()
   
   // 環境変数の取得とフォールバック
@@ -22,6 +20,20 @@ export default defineNuxtPlugin(() => {
   }
   
   try {
+    // Supabaseモジュールを動的にインポート
+    const { createClient } = await import('@supabase/supabase-js').catch(() => {
+      console.warn('@supabase/supabase-jsモジュールが見つかりません。ローカルストレージフォールバックを使用します。')
+      return { createClient: null }
+    })
+    
+    if (!createClient) {
+      return {
+        provide: {
+          supabase: null
+        }
+      }
+    }
+    
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
     console.log('Supabaseクライアント初期化成功')
     
