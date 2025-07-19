@@ -1,4 +1,6 @@
 export const useReactions = () => {
+  const { $supabase } = useNuxtApp()
+
   // 利用可能な絵文字の定義
   const reactionTypes = [
     { emoji: '❤️', name: 'love', label: '素晴らしい' },
@@ -9,7 +11,25 @@ export const useReactions = () => {
   ]
 
   // リアクションデータを取得
-  const getReactions = (articleId: string | number) => {
+  const getReactions = async (articleId: string | number) => {
+    if ($supabase) {
+      try {
+        const { data } = await $supabase
+          .from('article_reactions')
+          .select('reaction_type, count')
+          .eq('article_id', articleId)
+        
+        const reactions: Record<string, number> = {}
+        data?.forEach(item => {
+          reactions[item.reaction_type] = item.count
+        })
+        return reactions
+      } catch (error) {
+        console.error('Error fetching reactions:', error)
+      }
+    }
+    
+    // フォールバック: localStorage
     if (process.client) {
       const reactions = localStorage.getItem(`reactions_${articleId}`)
       return reactions ? JSON.parse(reactions) : {}

@@ -4,7 +4,7 @@
       <!-- ヘッダー -->
       <div class="flex items-center justify-between mb-8">
         <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200">記事一覧</h1>
-        <NuxtLink v-if="user" to="/articles/new" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
+        <NuxtLink v-if="isAdmin" to="/articles/new" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
           新しい記事を投稿
         </NuxtLink>
       </div>
@@ -114,7 +114,7 @@
               
               <div class="flex items-center gap-3">
                 <button
-                  v-if="user"
+                  v-if="isAdmin"
                   @click="handleDelete(article.id)"
                   class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-sm"
                 >

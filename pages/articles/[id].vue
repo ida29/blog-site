@@ -13,7 +13,7 @@
               ← 記事一覧に戻る
             </NuxtLink>
             <button
-              v-if="user"
+              v-if="isAdmin"
               @click="showDeleteConfirm = true"
               class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition duration-200"
             >
