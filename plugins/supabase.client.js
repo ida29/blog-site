@@ -27,12 +27,6 @@ export default defineNuxtPlugin(async () => {
     const { createClient } = await import('@supabase/supabase-js')
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
     
-    // 認証状態の変更を監視
-    supabase.auth.onAuthStateChange(async (event, session) => {
-      const { refreshUser } = useAuth()
-      await refreshUser()
-    })
-    
     return {
       provide: {
         supabase
