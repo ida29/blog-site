@@ -78,9 +78,10 @@
       <!-- 記事一覧 -->
       <div v-else class="grid gap-6">
         <article
-          v-for="article in filteredArticles"
+          v-for="(article, index) in filteredArticles"
           :key="article.id"
-          class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200 card-3d glass-effect hover:scale-105"
+          :style="`animation: fade-in-up 0.6s ease-out ${index * 0.1}s both;`"
         >
           <div class="p-6">
             <div class="flex items-start justify-between mb-4">
