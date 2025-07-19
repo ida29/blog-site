@@ -27,11 +27,130 @@ html {
   :root:not(.dark) {
     color-scheme: light;
   }
+  
+  /* Atom One Dark theme for dark mode */
+  .dark body {
+    @apply bg-atom-bg text-atom-fg;
+  }
+  
+  /* Override default dark mode colors */
+  .dark .bg-gray-800 {
+    @apply bg-atom-bgLight;
+  }
+  
+  .dark .bg-gray-900 {
+    @apply bg-atom-bgDark;
+  }
+  
+  .dark .text-gray-200 {
+    @apply text-atom-fg;
+  }
+  
+  .dark .text-gray-300 {
+    @apply text-atom-white;
+  }
+  
+  .dark .text-gray-400 {
+    @apply text-atom-comment;
+  }
+  
+  .dark .text-gray-500 {
+    @apply text-atom-gray;
+  }
+  
+  .dark .text-blue-400 {
+    @apply text-atom-blue;
+  }
+  
+  .dark .text-blue-500 {
+    @apply text-atom-blue;
+  }
+  
+  .dark .bg-blue-900 {
+    @apply bg-atom-selection;
+  }
+  
+  .dark .text-blue-300 {
+    @apply text-atom-cyan;
+  }
+  
+  .dark .border-gray-600 {
+    @apply border-atom-gutter;
+  }
+  
+  .dark .border-gray-700 {
+    @apply border-atom-selection;
+  }
+  
+  .dark .hover\:bg-gray-600:hover {
+    @apply hover:bg-atom-selection;
+  }
+  
+  .dark .hover\:bg-gray-700:hover {
+    @apply hover:bg-atom-bgDark;
+  }
+  
+  /* Code blocks in Atom style */
+  .dark pre {
+    @apply bg-atom-bgDark;
+  }
+  
+  .dark code {
+    @apply bg-atom-selection text-atom-purple;
+  }
+  
+  /* Links */
+  .dark a {
+    @apply text-atom-blue;
+  }
+  
+  .dark a:hover {
+    @apply text-atom-cyan;
+  }
+  
+  /* Buttons */
+  .dark .bg-blue-600 {
+    @apply bg-atom-blue;
+  }
+  
+  .dark .hover\:bg-blue-700:hover {
+    @apply hover:bg-atom-cyan;
+  }
+  
+  /* Gradients */
+  .dark .from-blue-600 {
+    @apply from-atom-blue;
+  }
+  
+  .dark .to-purple-600 {
+    @apply to-atom-purple;
+  }
+  
+  .dark .from-blue-700 {
+    @apply from-atom-blue;
+  }
+  
+  .dark .to-purple-700 {
+    @apply to-atom-purple;
+  }
 }
 
 /* Improved focus styles for dark mode */
 @layer utilities {
   .focus-visible:focus-visible {
-    @apply ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-800;
+    @apply ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-atom-blue dark:ring-offset-atom-bg;
+  }
+  
+  /* Input and textarea styles for Atom theme */
+  .dark input,
+  .dark textarea,
+  .dark select {
+    @apply bg-atom-bgDark border-atom-gutter text-atom-fg;
+  }
+  
+  .dark input:focus,
+  .dark textarea:focus,
+  .dark select:focus {
+    @apply border-atom-blue;
   }
 }
