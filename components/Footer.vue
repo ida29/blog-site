@@ -10,9 +10,6 @@
           <a href="https://github.com/ida29" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-200">
             GitHub
           </a>
-          <a href="#" class="text-gray-400 hover:text-white transition duration-200">
-            LinkedIn
-          </a>
         </div>
       </div>
       <div class="mt-8 pt-8 border-t border-gray-700 text-center">
