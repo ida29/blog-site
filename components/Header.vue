@@ -44,6 +44,13 @@
             </button>
           </div>
           <div v-else class="flex items-center space-x-4">
+            <button 
+              @click="toggleDevMode"
+              class="text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200"
+              :class="isDevModeActive ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'text-gray-700 dark:text-gray-300'"
+            >
+              {{ isDevModeActive ? '管理者モード' : 'デモモード' }}
+            </button>
             <NuxtLink to="/auth/login" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-200">
               ログイン
             </NuxtLink>
@@ -89,6 +96,13 @@
           </button>
         </div>
         <div v-else>
+          <button 
+            @click="toggleDevMode"
+            class="block w-full text-left text-sm px-3 py-1 mb-2 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200"
+            :class="isDevModeActive ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'text-gray-700 dark:text-gray-300'"
+          >
+            {{ isDevModeActive ? '管理者モード' : 'デモモード' }}
+          </button>
           <NuxtLink to="/auth/login" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2">ログイン</NuxtLink>
           <NuxtLink to="/auth/signup" class="block bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600">新規登録</NuxtLink>
         </div>
@@ -100,7 +114,7 @@
 <script setup>
 const showMenu = ref(false)
 const { isDark, toggleTheme } = useTheme()
-const { user, isAdmin, signOut } = useAuth()
+const { user, isAdmin, signOut, toggleDevMode, isDevModeActive } = useAuth()
 
 const toggleMenu = () => {
   showMenu.value = !showMenu.value
