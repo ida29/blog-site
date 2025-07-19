@@ -20,6 +20,20 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/blog-site/favicon.ico' }
+      ],
+      script: [
+        {
+          innerHTML: `
+            (function() {
+              const isDark = localStorage.getItem('darkMode') === 'true' || 
+                            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+              if (isDark) {
+                document.documentElement.classList.add('dark');
+              }
+            })();
+          `,
+          type: 'text/javascript'
+        }
       ]
     }
   },
