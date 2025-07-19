@@ -83,6 +83,19 @@ export const useAuth = () => {
     }
   }
 
+  const initAuthListener = () => {
+    if (!$supabase) return
+
+    $supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        await refreshUser()
+      } else if (event === 'SIGNED_OUT') {
+        user.value = null
+        isAdmin.value = false
+      }
+    })
+  }
+
   const isAuthenticated = computed(() => !!user.value)
   const canPostArticle = computed(() => isAuthenticated.value)
 
@@ -94,6 +107,7 @@ export const useAuth = () => {
     signUp,
     signIn,
     signOut,
-    refreshUser
+    refreshUser,
+    initAuthListener
   }
 }
