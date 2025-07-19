@@ -30,9 +30,6 @@
           <!-- ユーザー認証状態による表示切り替え -->
           <div v-if="user" class="flex items-center space-x-4">
             <span class="text-sm text-gray-600 dark:text-gray-400">{{ user.email }}</span>
-            <NuxtLink v-if="isAdmin" to="/admin" class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 transition duration-200">
-              管理画面
-            </NuxtLink>
             <button
               @click="handleLogout"
               class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition duration-200"
@@ -76,7 +73,6 @@
         <!-- モバイルメニューのユーザー認証状態による表示切り替え -->
         <div v-if="user">
           <span class="block text-sm text-gray-600 dark:text-gray-400 py-2">{{ user.email }}</span>
-          <NuxtLink v-if="isAdmin" to="/admin" class="block text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 py-2">管理画面</NuxtLink>
           <button
             @click="handleLogout"
             class="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 py-2"
