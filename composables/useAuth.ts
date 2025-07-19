@@ -4,7 +4,6 @@ export const useAuth = () => {
   const { $supabase } = useNuxtApp()
   const user = useState<User | null>('auth.user', () => null)
   const isAdmin = useState<boolean>('auth.isAdmin', () => false)
-  const devMode = useState<boolean>('auth.devMode', () => false)
 
   const signUp = async (email: string, password: string) => {
     try {
@@ -84,35 +83,17 @@ export const useAuth = () => {
     }
   }
 
-  const toggleDevMode = () => {
-    devMode.value = !devMode.value
-    if (devMode.value) {
-      user.value = { 
-        id: 'dev-admin', 
-        email: 'admin@dev.local',
-        app_metadata: { role: 'admin' }
-      } as User
-      isAdmin.value = true
-    } else {
-      user.value = null
-      isAdmin.value = false
-    }
-  }
-
   const isAuthenticated = computed(() => !!user.value)
   const canPostArticle = computed(() => isAuthenticated.value)
-  const isDevModeActive = computed(() => devMode.value)
 
   return {
     user: readonly(user),
     isAdmin: readonly(isAdmin),
     isAuthenticated,
     canPostArticle,
-    isDevModeActive,
     signUp,
     signIn,
     signOut,
-    refreshUser,
-    toggleDevMode
+    refreshUser
   }
 }
