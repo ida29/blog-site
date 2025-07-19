@@ -1,6 +1,12 @@
 // サンプルデータの初期化
 export const useInitSampleData = () => {
   const initSampleArticles = () => {
+    // サンプルデータ初期化フラグをチェック
+    const sampleDataInitialized = localStorage.getItem('sampleDataInitialized')
+    if (sampleDataInitialized === 'true') {
+      return
+    }
+    
     // すでに記事が存在する場合は何もしない
     const existingArticles = localStorage.getItem('articles')
     if (existingArticles && JSON.parse(existingArticles).length > 0) {
@@ -299,6 +305,8 @@ Composition APIを活用することで、Vue.jsアプリケーションのコ�
 
     // localStorageに保存
     localStorage.setItem('articles', JSON.stringify(sampleArticles))
+    // 初期化フラグを設定
+    localStorage.setItem('sampleDataInitialized', 'true')
     console.log('サンプル記事を初期化しました')
   }
 

@@ -8,10 +8,17 @@
       <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-colors duration-200">
         <!-- 記事メタ情報 -->
         <div class="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white p-8 transition-colors duration-200">
-          <div class="mb-4">
+          <div class="flex justify-between items-center mb-4">
             <NuxtLink to="/articles" class="text-blue-100 hover:text-white transition duration-200">
               ← 記事一覧に戻る
             </NuxtLink>
+            <button
+              v-if="user"
+              @click="showDeleteConfirm = true"
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition duration-200"
+            >
+              削除
+            </button>
           </div>
           <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ article.title }}</h1>
           <p class="text-lg text-blue-100 mb-6">{{ article.excerpt }}</p>
@@ -125,16 +132,41 @@
       </NuxtLink>
     </div>
   </div>
+
+  <!-- 削除確認ダイアログ -->
+  <div v-if="showDeleteConfirm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">記事を削除しますか？</h3>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">この操作は取り消すことができません。</p>
+      <div class="flex gap-3 justify-end">
+        <button
+          @click="showDeleteConfirm = false"
+          class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition duration-200"
+        >
+          キャンセル
+        </button>
+        <button
+          @click="handleDelete"
+          class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200"
+        >
+          削除する
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { marked } from 'marked'
 
 const route = useRoute()
-const { getArticle, getRelatedArticles } = useArticles()
+const router = useRouter()
+const { getArticle, getRelatedArticles, deleteArticle } = useArticles()
+const { user, isAdmin } = useAuth()
 const article = ref(null)
 const relatedArticles = ref([])
 const renderedContent = ref('')
+const showDeleteConfirm = ref(false)
 
 onMounted(async () => {
   const articleId = route.params.id
@@ -173,6 +205,18 @@ onMounted(async () => {
     console.error('記事の取得に失敗しました:', error)
   }
 })
+
+// 記事削除処理
+const handleDelete = async () => {
+  try {
+    await deleteArticle(article.value.id)
+    showDeleteConfirm.value = false
+    await router.push('/articles')
+  } catch (error) {
+    console.error('記事の削除に失敗しました:', error)
+    alert('記事の削除に失敗しました')
+  }
+}
 
 // 日付フォーマット
 const formatDate = (dateString) => {
