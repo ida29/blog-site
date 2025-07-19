@@ -26,18 +26,31 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
             </svg>
           </button>
-          <NuxtLink v-if="isAdmin" to="/admin" class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 transition duration-200">
-            管理画面
-          </NuxtLink>
-          <NuxtLink v-if="canPostArticle" to="/articles/new" class="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-200">
-            記事を投稿
-          </NuxtLink>
-          <NuxtLink v-if="!isAuthenticated" to="/login" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-200">
-            ログイン
-          </NuxtLink>
-          <button v-else @click="handleLogout" class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition duration-200">
-            ログアウト
-          </button>
+          
+          <!-- ユーザー認証状態による表示切り替え -->
+          <div v-if="user" class="flex items-center space-x-4">
+            <span class="text-sm text-gray-600 dark:text-gray-400">{{ user.email }}</span>
+            <NuxtLink v-if="isAdmin" to="/admin" class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 transition duration-200">
+              管理画面
+            </NuxtLink>
+            <NuxtLink to="/articles/new" class="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-200">
+              記事を投稿
+            </NuxtLink>
+            <button
+              @click="handleLogout"
+              class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition duration-200"
+            >
+              ログアウト
+            </button>
+          </div>
+          <div v-else class="flex items-center space-x-4">
+            <NuxtLink to="/auth/login" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-200">
+              ログイン
+            </NuxtLink>
+            <NuxtLink to="/auth/signup" class="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-200">
+              新規登録
+            </NuxtLink>
+          </div>
         </div>
         <div class="md:hidden flex items-center space-x-2">
           <button 
@@ -62,10 +75,23 @@
       <div v-if="showMenu" class="md:hidden mt-4 space-y-2 border-t dark:border-gray-700 pt-4">
         <NuxtLink to="/" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2">ホーム</NuxtLink>
         <NuxtLink to="/articles" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2">記事一覧</NuxtLink>
-        <NuxtLink v-if="isAdmin" to="/admin" class="block text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 py-2">管理画面</NuxtLink>
-        <NuxtLink v-if="canPostArticle" to="/articles/new" class="block bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600">記事を投稿</NuxtLink>
-        <NuxtLink v-if="!isAuthenticated" to="/login" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2">ログイン</NuxtLink>
-        <button v-else @click="handleLogout" class="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 py-2">ログアウト</button>
+        
+        <!-- モバイルメニューのユーザー認証状態による表示切り替え -->
+        <div v-if="user">
+          <span class="block text-sm text-gray-600 dark:text-gray-400 py-2">{{ user.email }}</span>
+          <NuxtLink v-if="isAdmin" to="/admin" class="block text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 py-2">管理画面</NuxtLink>
+          <NuxtLink to="/articles/new" class="block bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600">記事を投稿</NuxtLink>
+          <button
+            @click="handleLogout"
+            class="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 py-2"
+          >
+            ログアウト
+          </button>
+        </div>
+        <div v-else>
+          <NuxtLink to="/auth/login" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 py-2">ログイン</NuxtLink>
+          <NuxtLink to="/auth/signup" class="block bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600">新規登録</NuxtLink>
+        </div>
       </div>
     </nav>
   </header>
@@ -74,16 +100,14 @@
 <script setup>
 const showMenu = ref(false)
 const { isDark, toggleTheme } = useTheme()
-const { isAuthenticated, isAdmin, canPostArticle, logout } = useAuth()
-const router = useRouter()
+const { user, isAdmin, signOut } = useAuth()
 
 const toggleMenu = () => {
   showMenu.value = !showMenu.value
 }
 
 const handleLogout = async () => {
-  logout()
-  await router.push('/')
+  await signOut()
   showMenu.value = false
 }
 </script>
