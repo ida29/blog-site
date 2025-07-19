@@ -29,5 +29,11 @@ export default defineNuxtConfig({
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
     }
   },
-  ssr: true
+  ssr: true,
+  nitro: {
+    prerender: {
+      failOnError: false,
+      routes: ['/']
+    }
+  }
 })
