@@ -33,7 +33,7 @@
             <NuxtLink v-if="isAdmin" to="/admin" class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 transition duration-200">
               管理画面
             </NuxtLink>
-            <NuxtLink to="/articles/new" class="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-200">
+            <NuxtLink v-if="isAdmin" to="/articles/new" class="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-200">
               記事を投稿
             </NuxtLink>
             <button
@@ -80,7 +80,7 @@
         <div v-if="user">
           <span class="block text-sm text-gray-600 dark:text-gray-400 py-2">{{ user.email }}</span>
           <NuxtLink v-if="isAdmin" to="/admin" class="block text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 py-2">管理画面</NuxtLink>
-          <NuxtLink to="/articles/new" class="block bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600">記事を投稿</NuxtLink>
+          <NuxtLink v-if="isAdmin" to="/articles/new" class="block bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600">記事を投稿</NuxtLink>
           <button
             @click="handleLogout"
             class="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 py-2"

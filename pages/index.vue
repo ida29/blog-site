@@ -11,10 +11,7 @@
           Web開発、プログラミング、新技術の探求について発信しています。
         </p>
         <div class="space-x-4">
-          <NuxtLink to="/articles/new" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-200">
-            記事を投稿する
-          </NuxtLink>
-          <NuxtLink to="/articles" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-200">
+          <NuxtLink to="/articles" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-200">
             記事を読む
           </NuxtLink>
         </div>
