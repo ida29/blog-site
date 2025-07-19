@@ -1,15 +1,50 @@
 <template>
   <div>
-    <!-- Hero Section with 3D Effects -->
+    <!-- Hero Section with Space 3D Effects -->
     <section class="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white py-20 transition-colors duration-200">
-      <!-- Animated Background -->
-      <div class="absolute inset-0 holographic opacity-30"></div>
-      <div class="absolute inset-0 bg-gradient-to-br from-transparent via-blue-500/10 to-purple-500/10 animate-pulse"></div>
+      <!-- Space Background -->
+      <div class="absolute inset-0 cosmic-bg opacity-40"></div>
+      <div class="absolute inset-0 holographic opacity-20"></div>
       
-      <!-- Floating Elements -->
-      <div class="absolute top-20 left-10 w-20 h-20 bg-blue-400/20 rounded-full blur-xl" style="animation: float 6s ease-in-out infinite;"></div>
-      <div class="absolute top-40 right-20 w-16 h-16 bg-purple-400/20 rounded-full blur-xl" style="animation: float 4s ease-in-out infinite reverse;"></div>
-      <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-cyan-400/20 rounded-full blur-xl" style="animation: float 5s ease-in-out infinite;"></div>
+      <!-- Nebula -->
+      <div class="nebula opacity-50"></div>
+      
+      <!-- Orbital System -->
+      <div class="absolute top-1/2 right-10 transform -translate-y-1/2 orbital-system opacity-60">
+        <!-- Orbit Paths -->
+        <div class="orbit-path orbit-1"></div>
+        <div class="orbit-path orbit-2"></div>
+        <div class="orbit-path orbit-3"></div>
+        
+        <!-- Central Star -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-yellow-300 rounded-full shadow-lg" style="box-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700, 0 0 60px #ffd700;"></div>
+        
+        <!-- Orbiting Planets -->
+        <div class="orbiting-planet-1">
+          <div class="planet planet-blue" style="top: -30px; left: -30px;"></div>
+        </div>
+        <div class="orbiting-planet-2">
+          <div class="planet planet-green" style="top: -30px; left: -30px;"></div>
+        </div>
+        <div class="orbiting-planet-3">
+          <div class="planet planet-orange" style="top: -30px; left: -30px;"></div>
+        </div>
+      </div>
+      
+      <!-- Floating Planets -->
+      <div class="absolute top-20 left-10 planet planet-purple" style="animation: float 6s ease-in-out infinite;"></div>
+      <div class="absolute bottom-20 left-1/4 planet planet-blue" style="animation: float 5s ease-in-out infinite reverse;"></div>
+      
+      <!-- Satellites -->
+      <div class="absolute top-32 left-32 satellite"></div>
+      <div class="absolute bottom-32 right-32 satellite" style="animation-delay: -4s;"></div>
+      
+      <!-- Stars -->
+      <div class="star" style="top: 10%; left: 15%; width: 2px; height: 2px;"></div>
+      <div class="star" style="top: 20%; left: 80%; width: 1px; height: 1px; animation-delay: 1s;"></div>
+      <div class="star" style="top: 60%; left: 25%; width: 1.5px; height: 1.5px; animation-delay: 2s;"></div>
+      <div class="star" style="top: 80%; left: 70%; width: 2px; height: 2px; animation-delay: 0.5s;"></div>
+      <div class="star" style="top: 35%; left: 90%; width: 1px; height: 1px; animation-delay: 1.8s;"></div>
       
       <div class="container mx-auto px-6 text-center relative z-10">
         <h1 class="text-6xl font-bold mb-6 neon-text" style="animation: fade-in-up 1s ease-out;">
