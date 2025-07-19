@@ -1,6 +1,9 @@
 <template>
   <div v-if="article" class="container mx-auto px-6 py-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- メインコンテンツ -->
+        <div class="lg:col-span-3">
       <!-- 記事ヘッダー -->
       <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-colors duration-200">
         <!-- 記事メタ情報 -->
@@ -60,31 +63,12 @@
           </div>
         </div>
 
-        <!-- 記事フッター -->
-        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t dark:border-gray-600 transition-colors duration-200">
-          <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
-              <button class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
-                いいね
-              </button>
-              
-              <button class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
-                </svg>
-                シェア
-              </button>
-            </div>
-            
-            <NuxtLink to="/articles" class="bg-blue-600 dark:bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-200">
-              他の記事を読む
-            </NuxtLink>
-          </div>
-        </div>
       </article>
+
+          <!-- リアクション機能 -->
+          <div class="mt-8">
+            <ArticleReactions :article-id="article.id" />
+          </div>
 
       <!-- 関連記事 -->
       <section v-if="relatedArticles.length > 0" class="mt-12">
@@ -113,6 +97,16 @@
           </article>
         </div>
       </section>
+        </div>
+
+        <!-- サイドバー -->
+        <div class="lg:col-span-1">
+          <div class="space-y-6">
+            <!-- 目次 -->
+            <TableOfContents :content="article.content" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -153,6 +147,12 @@ onMounted(async () => {
       
       // マークダウンをHTMLに変換
       if (fetchedArticle.content) {
+        // marked設定でheading IDを自動生成
+        marked.setOptions({
+          headerIds: true,
+          mangle: false
+        })
+        
         const rawHtml = marked(fetchedArticle.content)
         // SSR対応のため、クライアントサイドでのみサニタイズ
         if (process.client) {
