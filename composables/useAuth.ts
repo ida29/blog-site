@@ -14,6 +14,7 @@ export const useAuth = () => {
       if (error) throw error
       return { data, error: null }
     } catch (error) {
+      console.error('サインアップエラー:', error)
       return { data: null, error }
     }
   }
@@ -24,11 +25,13 @@ export const useAuth = () => {
         email,
         password,
       })
+      
       if (error) throw error
       user.value = data.user
       await refreshUser()
       return { data, error: null }
     } catch (error) {
+      console.error('ログインエラー:', error)
       return { data: null, error }
     }
   }
@@ -59,10 +62,11 @@ export const useAuth = () => {
       }
     } catch (error) {
       console.error('ユーザー情報取得エラー:', error)
+      user.value = null
+      isAdmin.value = false
     }
   }
 
-  // localStorage認証システムとの互換性のためのcomputed
   const isAuthenticated = computed(() => !!user.value)
   const canPostArticle = computed(() => isAuthenticated.value)
 
