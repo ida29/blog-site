@@ -40,10 +40,23 @@
 
         <!-- 記事本文 -->
         <div class="p-8">
-          <div class="prose max-w-none">
-            <div class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap text-lg">
-              {{ article.content }}
-            </div>
+          <div class="prose prose-lg max-w-none dark:prose-invert
+                      prose-headings:font-bold prose-headings:text-gray-800 dark:prose-headings:text-gray-100
+                      prose-h1:text-3xl prose-h1:mt-8 prose-h1:mb-4
+                      prose-h2:text-2xl prose-h2:mt-6 prose-h2:mb-3
+                      prose-h3:text-xl prose-h3:mt-4 prose-h3:mb-2
+                      prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-4
+                      prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline prose-a:font-medium
+                      prose-strong:text-gray-800 dark:prose-strong:text-gray-200 prose-strong:font-bold
+                      prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-pink-600 dark:prose-code:text-pink-400 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm
+                      prose-pre:bg-gray-900 dark:prose-pre:bg-gray-950 prose-pre:text-gray-100 prose-pre:p-4 prose-pre:rounded-lg prose-pre:overflow-x-auto
+                      prose-blockquote:border-l-4 prose-blockquote:border-blue-600 dark:prose-blockquote:border-blue-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400
+                      prose-ul:list-disc prose-ul:pl-6 prose-ul:text-gray-700 dark:prose-ul:text-gray-300
+                      prose-ol:list-decimal prose-ol:pl-6 prose-ol:text-gray-700 dark:prose-ol:text-gray-300
+                      prose-li:mb-2
+                      prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto
+                      prose-hr:border-gray-300 dark:prose-hr:border-gray-600 prose-hr:my-8"
+                 v-html="renderedContent">
           </div>
         </div>
 
@@ -121,10 +134,13 @@
 </template>
 
 <script setup>
+import { marked } from 'marked'
+
 const route = useRoute()
 const { getArticle, getRelatedArticles } = useArticles()
 const article = ref(null)
 const relatedArticles = ref([])
+const renderedContent = ref('')
 
 onMounted(async () => {
   const articleId = route.params.id
@@ -134,6 +150,18 @@ onMounted(async () => {
     const fetchedArticle = await getArticle(articleId)
     if (fetchedArticle && fetchedArticle.status === 'published') {
       article.value = fetchedArticle
+      
+      // マークダウンをHTMLに変換
+      if (fetchedArticle.content) {
+        const rawHtml = marked(fetchedArticle.content)
+        // SSR対応のため、クライアントサイドでのみサニタイズ
+        if (process.client) {
+          const DOMPurify = (await import('dompurify')).default
+          renderedContent.value = DOMPurify.sanitize(rawHtml)
+        } else {
+          renderedContent.value = rawHtml
+        }
+      }
       
       // 関連記事を取得
       if (fetchedArticle.tags && fetchedArticle.tags.length > 0) {
