@@ -7,9 +7,6 @@
           <p class="text-gray-400 mt-2">技術学習と開発の記録を発信するエンジニアブログ</p>
         </div>
         <div class="flex space-x-6">
-          <a href="https://twitter.com/yida" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-200">
-            Twitter
-          </a>
           <a href="https://github.com/ida29" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-200">
             GitHub
           </a>
