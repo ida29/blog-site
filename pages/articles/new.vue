@@ -100,7 +100,6 @@
 
 <script setup>
 import { marked } from 'marked'
-import DOMPurify from 'isomorphic-dompurify'
 
 // definePageMeta({
 //   middleware: 'admin'
@@ -120,7 +119,14 @@ const article = ref({
 const renderedContent = computed(() => {
   if (!article.value?.content) return ''
   const rawHtml = marked(article.value.content)
-  return DOMPurify.sanitize(rawHtml)
+  // SSR対応のため、クライアントサイドでのみサニタイズ
+  if (process.client) {
+    const DOMPurify = window.DOMPurify || {}
+    if (DOMPurify.sanitize) {
+      return DOMPurify.sanitize(rawHtml)
+    }
+  }
+  return rawHtml
 })
 
 const handleSubmit = async () => {
