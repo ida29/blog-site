@@ -5,10 +5,12 @@ CREATE TABLE IF NOT EXISTS article_reactions (
   user_id UUID REFERENCES auth.users(id),
   session_id TEXT, -- For anonymous users
   reaction_type TEXT NOT NULL CHECK (reaction_type IN ('love', 'like', 'laugh', 'think', 'fire')),
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  UNIQUE(article_id, user_id, reaction_type),
-  UNIQUE(article_id, session_id, reaction_type)
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Add unique constraints separately to handle NULL values properly
+CREATE UNIQUE INDEX idx_article_reactions_user ON article_reactions(article_id, user_id, reaction_type) WHERE user_id IS NOT NULL;
+CREATE UNIQUE INDEX idx_article_reactions_session ON article_reactions(article_id, session_id, reaction_type) WHERE session_id IS NOT NULL;
 
 -- Enable Row Level Security
 ALTER TABLE article_reactions ENABLE ROW LEVEL SECURITY;

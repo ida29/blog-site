@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS articles (
   content TEXT NOT NULL,
   tags TEXT[] DEFAULT '{}',
   status TEXT DEFAULT 'draft' CHECK (status IN ('draft', 'published')),
-  author_id UUID REFERENCES auth.users(id),
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   published_at TIMESTAMPTZ
@@ -38,18 +37,18 @@ CREATE POLICY "Authenticated users can create articles"
   ON articles FOR INSERT 
   WITH CHECK (auth.uid() IS NOT NULL);
 
--- Policy: Users can update their own articles
-CREATE POLICY "Users can update their own articles" 
+-- Policy: Authenticated users can update any articles (since no author_id exists)
+CREATE POLICY "Authenticated users can update articles" 
   ON articles FOR UPDATE 
-  USING (auth.uid() = author_id);
+  USING (auth.uid() IS NOT NULL);
 
--- Policy: Users can delete their own articles
-CREATE POLICY "Users can delete their own articles" 
+-- Policy: Authenticated users can delete any articles (since no author_id exists)
+CREATE POLICY "Authenticated users can delete articles" 
   ON articles FOR DELETE 
-  USING (auth.uid() = author_id);
+  USING (auth.uid() IS NOT NULL);
 
 -- Create indexes for performance
 CREATE INDEX idx_articles_status ON articles(status);
 CREATE INDEX idx_articles_published_at ON articles(published_at);
-CREATE INDEX idx_articles_author_id ON articles(author_id);
+-- CREATE INDEX idx_articles_author_id ON articles(author_id); -- author_id doesn't exist
 CREATE INDEX idx_articles_tags ON articles USING GIN(tags);
