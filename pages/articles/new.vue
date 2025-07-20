@@ -115,13 +115,11 @@ const article = ref({
 
 const handleSubmit = async () => {
   try {
-    const now = new Date()
     const articleData = {
       title: article.value.title,
       excerpt: article.value.excerpt,
       content: article.value.content,
       tags: article.value.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-      date: now.toISOString().split('T')[0],
       status: 'published'
     }
     
@@ -143,7 +141,6 @@ const saveDraft = async () => {
       excerpt: article.value.excerpt,
       content: article.value.content,
       tags: article.value.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-      date: new Date().toISOString().split('T')[0],
       status: 'draft'
     }
     
