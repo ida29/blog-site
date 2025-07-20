@@ -2,8 +2,13 @@ export const useArticles = () => {
   const { $supabase } = useNuxtApp()
   
   // Supabaseが利用できない場合のフォールバック
-  if (!$supabase) {
-    console.warn('Supabaseが利用できません。ローカルストレージを使用します。')
+  try {
+    if (!$supabase || !$supabase.from) {
+      console.warn('Supabaseが利用できません。ローカルストレージを使用します。')
+      return useLocalStorageArticles()
+    }
+  } catch (error) {
+    console.warn('Supabaseへの接続に失敗しました。ローカルストレージを使用します。')
     return useLocalStorageArticles()
   }
 
@@ -103,7 +108,10 @@ export const useArticles = () => {
       return data
     } catch (error) {
       console.error('Error creating article:', error)
-      throw error
+      // Supabaseエラーの場合、LocalStorageにフォールバック
+      console.warn('Supabaseでの作成に失敗しました。LocalStorageを使用します。')
+      const localStorageArticles = useLocalStorageArticles()
+      return await localStorageArticles.createArticle(articleData)
     }
   }
 

@@ -99,9 +99,9 @@
 </template>
 
 <script setup>
-definePageMeta({
-  middleware: 'admin'
-})
+// definePageMeta({
+//   middleware: 'admin'
+// })
 
 const router = useRouter()
 const { createArticle } = useArticles()
