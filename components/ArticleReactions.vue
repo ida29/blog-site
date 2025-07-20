@@ -9,7 +9,7 @@
         @click="handleReactionClick(reaction.name)"
         :class="[
           'flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-300 hover:scale-110 transform hover:rotate-2 shadow-lg',
-          hasUserReacted(articleId, reaction.name)
+          userReactions.includes(reaction.name)
             ? 'bg-gradient-to-r from-blue-400 to-blue-600 border-blue-500 text-white shadow-blue-500/50'
             : 'bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
         ]"
@@ -39,11 +39,13 @@ const {
   getReactions, 
   toggleReaction, 
   getTotalReactions, 
-  hasUserReacted 
+  getUserReactions 
 } = useReactions()
 
-const reactions = ref({})
+const reactions = ref<Record<string, number>>({})
 const totalReactions = ref(0)
+const userReactions = ref<string[]>([])
+const loading = ref(false)
 
 // リアクション数を取得
 const getReactionCount = (reactionName: string) => {
@@ -51,22 +53,54 @@ const getReactionCount = (reactionName: string) => {
 }
 
 // リアクションをクリックした時の処理
-const handleReactionClick = (reactionName: string) => {
-  const success = toggleReaction(props.articleId, reactionName)
-  if (success) {
-    // リアクションデータを再読み込み
-    loadReactions()
+const handleReactionClick = async (reactionName: string) => {
+  if (loading.value) return
+  
+  loading.value = true
+  try {
+    const success = await toggleReaction(props.articleId, reactionName)
+    if (success) {
+      // リアクションデータを再読み込み
+      await loadReactions()
+    }
+  } finally {
+    loading.value = false
   }
 }
 
 // リアクションデータを読み込み
-const loadReactions = () => {
-  reactions.value = getReactions(props.articleId)
-  totalReactions.value = getTotalReactions(props.articleId)
+const loadReactions = async () => {
+  try {
+    const [reactionsData, userReactionsData, total] = await Promise.all([
+      getReactions(props.articleId),
+      getUserReactions(props.articleId),
+      getTotalReactions(props.articleId)
+    ])
+    
+    reactions.value = reactionsData
+    userReactions.value = userReactionsData
+    totalReactions.value = total
+  } catch (error) {
+    console.error('リアクションデータの読み込みエラー:', error)
+  }
 }
 
 // コンポーネントマウント時にデータを読み込み
+onMounted(async () => {
+  await loadReactions()
+})
+
+// 定期的にリアクションデータを更新（他のユーザーの変更を反映）
+let intervalId: any
 onMounted(() => {
-  loadReactions()
+  intervalId = setInterval(async () => {
+    await loadReactions()
+  }, 10000) // 10秒ごとに更新
+})
+
+onUnmounted(() => {
+  if (intervalId) {
+    clearInterval(intervalId)
+  }
 })
 </script>
