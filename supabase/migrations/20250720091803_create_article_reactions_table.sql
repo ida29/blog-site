@@ -1,7 +1,7 @@
 -- Create article reactions table
 CREATE TABLE IF NOT EXISTS article_reactions (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  article_id UUID NOT NULL REFERENCES articles(id) ON DELETE CASCADE,
+  id BIGSERIAL PRIMARY KEY,
+  article_id BIGINT NOT NULL REFERENCES articles(id) ON DELETE CASCADE,
   user_id UUID REFERENCES auth.users(id),
   session_id TEXT, -- For anonymous users
   reaction_type TEXT NOT NULL CHECK (reaction_type IN ('love', 'like', 'laugh', 'think', 'fire')),

@@ -1,6 +1,6 @@
 -- Create articles table
 CREATE TABLE IF NOT EXISTS articles (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   title TEXT NOT NULL,
   excerpt TEXT,
   content TEXT NOT NULL,

@@ -10,13 +10,14 @@ BEGIN
                AND table_name = 'articles') THEN
         
         -- Mark the create_articles_table migration as already executed
-        INSERT INTO supabase_migrations.schema_migrations (version, statements, name)
-        VALUES (
-            '20250720091727',
-            ARRAY['-- Manually created'],
-            'create_articles_table'
-        )
-        ON CONFLICT (version) DO NOTHING;
+        -- Skip marking as executed since table structure differs
+        -- INSERT INTO supabase_migrations.schema_migrations (version, statements, name)
+        -- VALUES (
+        --     '20250720091727',
+        --     ARRAY['-- Manually created'],
+        --     'create_articles_table'
+        -- )
+        -- ON CONFLICT (version) DO NOTHING;
         
         -- Ensure all required columns exist
         -- Add any missing columns here

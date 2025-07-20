@@ -54,7 +54,8 @@ export const useLocalStorageArticles = () => {
   const getArticle = async (id) => {
     try {
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
-      return articles.find(article => article.id == id) || null
+      // IDを数値として比較（bigintとの互換性のため）
+      return articles.find(article => String(article.id) === String(id)) || null
     } catch (error) {
       console.error('Error fetching article from localStorage:', error)
       return null
@@ -87,7 +88,7 @@ export const useLocalStorageArticles = () => {
   const updateArticle = async (id, articleData) => {
     try {
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
-      const index = articles.findIndex(article => article.id == id)
+      const index = articles.findIndex(article => String(article.id) === String(id))
       
       if (index === -1) {
         throw new Error('Article not found')
@@ -111,7 +112,7 @@ export const useLocalStorageArticles = () => {
   const deleteArticle = async (id) => {
     try {
       const articles = JSON.parse(localStorage.getItem('articles') || '[]')
-      const filtered = articles.filter(article => article.id != id)
+      const filtered = articles.filter(article => String(article.id) !== String(id))
       localStorage.setItem('articles', JSON.stringify(filtered))
       return true
     } catch (error) {
@@ -150,7 +151,7 @@ export const useLocalStorageArticles = () => {
       return articles
         .filter(article => 
           article.status === 'published' && 
-          article.id != currentId &&
+          String(article.id) !== String(currentId) &&
           article.tags && 
           article.tags.some(tag => tags.includes(tag))
         )
