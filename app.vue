@@ -1,21 +1,5 @@
 <template>
   <div>
-    <!-- Mouse Follower 3D Effects -->
-    <div ref="mouseFollower" class="mouse-follower">
-      <div class="cursor-glow"></div>
-    </div>
-    <div ref="mouseTrail" class="mouse-follower">
-      <div class="cursor-trail"></div>
-    </div>
-    <div ref="mouseRing" class="mouse-follower">
-      <div class="cursor-ring">
-        <div class="cursor-particles"></div>
-        <div class="cursor-particles"></div>
-        <div class="cursor-particles"></div>
-        <div class="cursor-particles"></div>
-      </div>
-    </div>
-    
     <!-- Wireframe 3D Objects -->
     <div class="wireframe-3d wireframe-cube-container" style="top: 20%; left: 10%; animation-delay: 0s;">
       <div class="wireframe-cube-3d">
@@ -84,40 +68,6 @@
 const { initSampleArticles } = useInitSampleData()
 const { refreshUser, initAuthListener } = useAuth()
 
-// Mouse follower refs
-const mouseFollower = ref(null)
-const mouseTrail = ref(null)
-const mouseRing = ref(null)
-
-// Mouse position tracking
-let mouseX = 0
-let mouseY = 0
-let trailX = 0
-let trailY = 0
-let ringX = 0
-let ringY = 0
-
-const updateMouseFollower = () => {
-  if (mouseFollower.value) {
-    mouseFollower.value.style.transform = `translate(${mouseX}px, ${mouseY}px)`
-  }
-  
-  // Smooth trail follow
-  trailX += (mouseX - trailX) * 0.1
-  trailY += (mouseY - trailY) * 0.1
-  if (mouseTrail.value) {
-    mouseTrail.value.style.transform = `translate(${trailX}px, ${trailY}px)`
-  }
-  
-  // Even smoother ring follow
-  ringX += (mouseX - ringX) * 0.05
-  ringY += (mouseY - ringY) * 0.05
-  if (mouseRing.value) {
-    mouseRing.value.style.transform = `translate(${ringX}px, ${ringY}px)`
-  }
-  
-  requestAnimationFrame(updateMouseFollower)
-}
 
 onMounted(async () => {
   // アプリケーション起動時にサンプルデータを初期化
@@ -128,19 +78,5 @@ onMounted(async () => {
   
   // 認証状態変更のリスナーを初期化
   initAuthListener()
-  
-  // Mouse tracking
-  const handleMouseMove = (e) => {
-    mouseX = e.clientX
-    mouseY = e.clientY
-  }
-  
-  document.addEventListener('mousemove', handleMouseMove)
-  updateMouseFollower()
-  
-  // Cleanup on unmount
-  onUnmounted(() => {
-    document.removeEventListener('mousemove', handleMouseMove)
-  })
 })
 </script>

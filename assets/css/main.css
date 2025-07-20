@@ -322,12 +322,13 @@
   opacity: 0.2;
   pointer-events: none;
   perspective: 1000px;
+  z-index: 1;
 }
 
 /* Wireframe Cube */
 .wireframe-cube-container {
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
 }
 
 .wireframe-cube-3d {
@@ -340,23 +341,23 @@
 
 .cube-face {
   position: absolute;
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
   border: 2px solid rgba(97, 175, 239, 0.6);
   background: transparent;
 }
 
-.cube-front { transform: translateZ(40px); }
-.cube-back { transform: rotateY(180deg) translateZ(40px); }
-.cube-top { transform: rotateX(90deg) translateZ(40px); }
-.cube-bottom { transform: rotateX(-90deg) translateZ(40px); }
-.cube-left { transform: rotateY(-90deg) translateZ(40px); }
-.cube-right { transform: rotateY(90deg) translateZ(40px); }
+.cube-front { transform: translateZ(75px); }
+.cube-back { transform: rotateY(180deg) translateZ(75px); }
+.cube-top { transform: rotateX(90deg) translateZ(75px); }
+.cube-bottom { transform: rotateX(-90deg) translateZ(75px); }
+.cube-left { transform: rotateY(-90deg) translateZ(75px); }
+.cube-right { transform: rotateY(90deg) translateZ(75px); }
 
 /* Wireframe Pyramid */
 .wireframe-pyramid-container {
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
 }
 
 .wireframe-pyramid-3d {
@@ -375,33 +376,33 @@
 }
 
 .pyramid-base {
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
   border: 2px solid rgba(198, 120, 221, 0.6);
   background: transparent;
-  transform: rotateX(90deg) translateZ(-40px);
+  transform: rotateX(90deg) translateZ(-75px);
 }
 
 .pyramid-front,
 .pyramid-back,
 .pyramid-left,
 .pyramid-right {
-  border-left: 40px solid transparent;
-  border-right: 40px solid transparent;
-  border-bottom: 80px solid rgba(198, 120, 221, 0.1);
+  border-left: 75px solid transparent;
+  border-right: 75px solid transparent;
+  border-bottom: 150px solid rgba(198, 120, 221, 0.1);
   border-bottom-width: 2px;
   outline: 1px solid rgba(198, 120, 221, 0.6);
 }
 
-.pyramid-front { transform: translateZ(40px); }
-.pyramid-back { transform: rotateY(180deg) translateZ(40px); }
-.pyramid-left { transform: rotateY(-90deg) translateZ(40px); }
-.pyramid-right { transform: rotateY(90deg) translateZ(40px); }
+.pyramid-front { transform: translateZ(75px); }
+.pyramid-back { transform: rotateY(180deg) translateZ(75px); }
+.pyramid-left { transform: rotateY(-90deg) translateZ(75px); }
+.pyramid-right { transform: rotateY(90deg) translateZ(75px); }
 
 /* Wireframe Octahedron */
 .wireframe-octahedron-container {
-  width: 100px;
-  height: 100px;
+  width: 180px;
+  height: 180px;
 }
 
 .wireframe-octahedron-3d {
@@ -414,8 +415,8 @@
 
 .octahedron-face {
   position: absolute;
-  width: 70px;
-  height: 70px;
+  width: 130px;
+  height: 130px;
   border: 2px solid rgba(86, 182, 194, 0.6);
   background: transparent;
   transform: rotate(45deg);
@@ -428,8 +429,8 @@
 
 /* Wireframe Sphere */
 .wireframe-sphere-container {
-  width: 100px;
-  height: 100px;
+  width: 180px;
+  height: 180px;
 }
 
 .wireframe-sphere-3d {
@@ -442,8 +443,8 @@
 
 .sphere-ring {
   position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 180px;
+  height: 180px;
   border: 2px solid rgba(152, 195, 121, 0.6);
   border-radius: 50%;
   background: transparent;
@@ -456,8 +457,8 @@
 
 /* Wireframe Dodecahedron */
 .wireframe-dodecahedron-container {
-  width: 90px;
-  height: 90px;
+  width: 160px;
+  height: 160px;
 }
 
 .wireframe-dodecahedron-3d {
@@ -470,21 +471,21 @@
 
 .dodeca-face {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 90px;
+  height: 90px;
   border: 2px solid rgba(224, 108, 117, 0.6);
   background: transparent;
   clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
 }
 
-.dodeca-face:nth-child(1) { transform: translateZ(40px); }
-.dodeca-face:nth-child(2) { transform: rotateY(72deg) translateZ(40px); }
-.dodeca-face:nth-child(3) { transform: rotateY(144deg) translateZ(40px); }
+.dodeca-face:nth-child(1) { transform: translateZ(70px); }
+.dodeca-face:nth-child(2) { transform: rotateY(72deg) translateZ(70px); }
+.dodeca-face:nth-child(3) { transform: rotateY(144deg) translateZ(70px); }
 
 /* Wireframe Torus */
 .wireframe-torus-container {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
 }
 
 .wireframe-torus-3d {
@@ -497,8 +498,8 @@
 
 .torus-ring {
   position: absolute;
-  width: 120px;
-  height: 40px;
+  width: 200px;
+  height: 70px;
   border: 2px solid rgba(229, 192, 123, 0.6);
   border-radius: 50%;
   background: transparent;
@@ -512,8 +513,8 @@
 
 /* Wireframe Icosahedron */
 .wireframe-icosahedron-container {
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
 }
 
 .wireframe-icosahedron-3d {
@@ -528,16 +529,16 @@
   position: absolute;
   width: 0;
   height: 0;
-  border-left: 40px solid transparent;
-  border-right: 40px solid transparent;
-  border-bottom: 70px solid transparent;
+  border-left: 75px solid transparent;
+  border-right: 75px solid transparent;
+  border-bottom: 130px solid transparent;
   border-bottom-color: rgba(97, 175, 239, 0.6);
   border-bottom-width: 2px;
 }
 
-.icosa-face:nth-child(1) { transform: rotateY(0deg) translateZ(30px); }
-.icosa-face:nth-child(2) { transform: rotateY(120deg) translateZ(30px); }
-.icosa-face:nth-child(3) { transform: rotateY(240deg) translateZ(30px); }
+.icosa-face:nth-child(1) { transform: rotateY(0deg) translateZ(55px); }
+.icosa-face:nth-child(2) { transform: rotateY(120deg) translateZ(55px); }
+.icosa-face:nth-child(3) { transform: rotateY(240deg) translateZ(55px); }
 
 @keyframes wireframe-rotate {
   0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
