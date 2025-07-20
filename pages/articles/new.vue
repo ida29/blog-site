@@ -8,18 +8,46 @@
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">記事情報</h2>
         
         <form @submit.prevent="handleSubmit" class="space-y-6">
-          <div>
-            <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              タイトル
-            </label>
-            <input
-              id="title"
-              v-model="article.title"
-              type="text"
-              required
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-              placeholder="記事のタイトルを入力"
-            />
+          <div class="grid grid-cols-4 gap-4">
+            <div class="col-span-3">
+              <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                タイトル
+              </label>
+              <input
+                id="title"
+                v-model="article.title"
+                type="text"
+                required
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                placeholder="記事のタイトルを入力"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                アイキャッチ
+              </label>
+              <button
+                type="button"
+                @click="showEmojiPicker = !showEmojiPicker"
+                class="w-full h-[42px] text-2xl border border-gray-300 dark:border-gray-600 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700 transition duration-200 relative"
+              >
+                {{ article.emoji }}
+              </button>
+              <!-- 絵文字ピッカー -->
+              <div v-if="showEmojiPicker" class="absolute z-10 mt-2 p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
+                <div class="grid grid-cols-8 gap-2 max-w-sm">
+                  <button
+                    v-for="emoji in popularEmojis"
+                    :key="emoji"
+                    type="button"
+                    @click="selectEmoji(emoji)"
+                    class="text-2xl p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition duration-200"
+                  >
+                    {{ emoji }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           
           <div>
@@ -84,7 +112,10 @@
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">プレビュー</h2>
         <div class="prose dark:prose-invert max-w-none">
-          <h1 class="text-2xl font-bold mb-4">{{ article.title || 'タイトル' }}</h1>
+          <h1 class="text-2xl font-bold mb-4 flex items-center gap-3">
+            <span class="text-4xl">{{ article.emoji }}</span>
+            {{ article.title || 'タイトル' }}
+          </h1>
           <p class="text-gray-600 dark:text-gray-400 mb-4">{{ article.excerpt || '概要' }}</p>
           <div v-html="renderedContent" class="prose-pre:bg-gray-900 prose-pre:text-gray-100"></div>
           <div v-if="article.tags" class="mt-4">
@@ -112,8 +143,26 @@ const article = ref({
   title: '',
   excerpt: '',
   content: '',
-  tags: ''
+  tags: '',
+  emoji: '📝'
 })
+
+const showEmojiPicker = ref(false)
+
+// 人気の絵文字リスト
+const popularEmojis = [
+  '📝', '💡', '🚀', '🔥', '💻', '📱', '🎨', '📊',
+  '🛠️', '⚡', '🌟', '💎', '🔧', '🎯', '📚', '🌐',
+  '🔒', '🔑', '📈', '💰', '🎉', '✨', '🏆', '🎁',
+  '🤖', '🧠', '💪', '👀', '🔍', '📍', '🎮', '🎧',
+  '☕', '🍕', '🌈', '🌙', '⭐', '🍀', '🌸', '🦄'
+]
+
+// 絵文字を選択
+const selectEmoji = (emoji) => {
+  article.value.emoji = emoji
+  showEmojiPicker.value = false
+}
 
 // Markdownのレンダリング
 const renderedContent = computed(() => {
@@ -136,7 +185,8 @@ const handleSubmit = async () => {
       excerpt: article.value.excerpt,
       content: article.value.content,
       tags: article.value.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-      status: 'published'
+      status: 'published',
+      emoji: article.value.emoji
     }
     
     // 実際の投稿処理
@@ -157,7 +207,8 @@ const saveDraft = async () => {
       excerpt: article.value.excerpt,
       content: article.value.content,
       tags: article.value.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-      status: 'draft'
+      status: 'draft',
+      emoji: article.value.emoji
     }
     
     // 下書き保存処理
