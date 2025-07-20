@@ -32,7 +32,7 @@
           </p>
         </div>
         <div class="grid md:grid-cols-3 gap-8">
-          <div class="text-center card-3d glass-effect rounded-xl p-6 hover:scale-110 transition-transform duration-300" style="animation: slide-in-left 1s ease-out;">
+          <div class="text-center card-3d glass-effect rounded-xl p-6 hover:scale-105 hover:shadow-2xl transition-all duration-300" style="animation: fade-in-up 1s ease-out;">
             <div class="bg-gradient-to-br from-blue-400 to-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg" style="animation: glow 3s ease-in-out infinite;">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -41,8 +41,8 @@
             <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">学習記録</h3>
             <p class="text-gray-600 dark:text-gray-400">新しい技術やツールを学んだ過程と結果を記録し、共有しています</p>
           </div>
-          <div class="text-center card-3d glass-effect rounded-xl p-6 hover:scale-110 transition-transform duration-300" style="animation: fade-in-up 1s ease-out 0.3s both;">
-            <div class="bg-gradient-to-br from-green-400 to-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg" style="animation: glow 3s ease-in-out infinite 1s;">
+          <div class="text-center card-3d glass-effect rounded-xl p-6 hover:scale-105 hover:shadow-2xl transition-all duration-300" style="animation: fade-in-up 1s ease-out;">
+            <div class="bg-gradient-to-br from-green-400 to-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg" style="animation: glow 3s ease-in-out infinite;">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
               </svg>
@@ -50,8 +50,8 @@
             <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">実践的な内容</h3>
             <p class="text-gray-600 dark:text-gray-400">実際の開発で得た知見やハマった問題の解決方法を実践的に紹介</p>
           </div>
-          <div class="text-center card-3d glass-effect rounded-xl p-6 hover:scale-110 transition-transform duration-300" style="animation: slide-in-right 1s ease-out 0.6s both;">
-            <div class="bg-gradient-to-br from-purple-400 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg" style="animation: glow 3s ease-in-out infinite 2s;">
+          <div class="text-center card-3d glass-effect rounded-xl p-6 hover:scale-105 hover:shadow-2xl transition-all duration-300" style="animation: fade-in-up 1s ease-out;">
+            <div class="bg-gradient-to-br from-purple-400 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg" style="animation: glow 3s ease-in-out infinite;">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
               </svg>
