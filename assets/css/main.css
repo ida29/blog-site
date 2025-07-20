@@ -347,6 +347,16 @@
   background: transparent;
 }
 
+.cube-grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(97, 175, 239, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(97, 175, 239, 0.3) 1px, transparent 1px);
+  background-size: 37.5px 37.5px;
+}
+
 .cube-front { transform: translateZ(75px); }
 .cube-back { transform: rotateY(180deg) translateZ(75px); }
 .cube-top { transform: rotateX(90deg) translateZ(75px); }
@@ -422,10 +432,24 @@
   transform: rotate(45deg);
 }
 
-.octahedron-face:nth-child(1) { transform: rotateX(35deg) rotateY(45deg); }
-.octahedron-face:nth-child(2) { transform: rotateX(35deg) rotateY(-45deg); }
-.octahedron-face:nth-child(3) { transform: rotateX(-35deg) rotateY(45deg); }
-.octahedron-face:nth-child(4) { transform: rotateX(-35deg) rotateY(-45deg); }
+.octahedron-inner {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  border: 1px solid rgba(86, 182, 194, 0.4);
+  top: 20%;
+  left: 20%;
+  transform: rotate(45deg);
+}
+
+.octahedron-face:nth-child(1) { transform: rotateX(0deg) rotateY(0deg); }
+.octahedron-face:nth-child(2) { transform: rotateX(45deg) rotateY(0deg); }
+.octahedron-face:nth-child(3) { transform: rotateX(90deg) rotateY(0deg); }
+.octahedron-face:nth-child(4) { transform: rotateX(135deg) rotateY(0deg); }
+.octahedron-face:nth-child(5) { transform: rotateX(0deg) rotateY(45deg); }
+.octahedron-face:nth-child(6) { transform: rotateX(0deg) rotateY(90deg); }
+.octahedron-face:nth-child(7) { transform: rotateX(0deg) rotateY(135deg); }
+.octahedron-face:nth-child(8) { transform: rotateX(0deg) rotateY(180deg); }
 
 /* Wireframe Sphere */
 .wireframe-sphere-container {
@@ -451,9 +475,21 @@
 }
 
 .sphere-ring:nth-child(1) { transform: rotateY(0deg); }
-.sphere-ring:nth-child(2) { transform: rotateY(45deg); }
-.sphere-ring:nth-child(3) { transform: rotateY(90deg); }
-.sphere-ring:nth-child(4) { transform: rotateX(90deg); }
+.sphere-ring:nth-child(2) { transform: rotateY(22.5deg); }
+.sphere-ring:nth-child(3) { transform: rotateY(45deg); }
+.sphere-ring:nth-child(4) { transform: rotateY(67.5deg); }
+.sphere-ring:nth-child(5) { transform: rotateY(90deg); }
+.sphere-ring:nth-child(6) { transform: rotateY(112.5deg); }
+.sphere-ring:nth-child(7) { transform: rotateY(135deg); }
+.sphere-ring:nth-child(8) { transform: rotateY(157.5deg); }
+
+.sphere-vertical {
+  transform: rotateX(90deg);
+}
+.sphere-ring:nth-child(9) { transform: rotateX(90deg) rotateY(0deg); }
+.sphere-ring:nth-child(10) { transform: rotateX(90deg) rotateY(45deg); }
+.sphere-ring:nth-child(11) { transform: rotateX(90deg) rotateY(90deg); }
+.sphere-ring:nth-child(12) { transform: rotateX(90deg) rotateY(135deg); }
 
 /* Wireframe Dodecahedron */
 .wireframe-dodecahedron-container {
@@ -478,9 +514,18 @@
   clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
 }
 
-.dodeca-face:nth-child(1) { transform: translateZ(70px); }
-.dodeca-face:nth-child(2) { transform: rotateY(72deg) translateZ(70px); }
-.dodeca-face:nth-child(3) { transform: rotateY(144deg) translateZ(70px); }
+.dodeca-face:nth-child(1) { transform: rotateY(0deg) translateZ(70px); }
+.dodeca-face:nth-child(2) { transform: rotateY(30deg) translateZ(70px); }
+.dodeca-face:nth-child(3) { transform: rotateY(60deg) translateZ(70px); }
+.dodeca-face:nth-child(4) { transform: rotateY(90deg) translateZ(70px); }
+.dodeca-face:nth-child(5) { transform: rotateY(120deg) translateZ(70px); }
+.dodeca-face:nth-child(6) { transform: rotateY(150deg) translateZ(70px); }
+.dodeca-face:nth-child(7) { transform: rotateY(180deg) translateZ(70px); }
+.dodeca-face:nth-child(8) { transform: rotateY(210deg) translateZ(70px); }
+.dodeca-face:nth-child(9) { transform: rotateY(240deg) translateZ(70px); }
+.dodeca-face:nth-child(10) { transform: rotateY(270deg) translateZ(70px); }
+.dodeca-face:nth-child(11) { transform: rotateY(300deg) translateZ(70px); }
+.dodeca-face:nth-child(12) { transform: rotateY(330deg) translateZ(70px); }
 
 /* Wireframe Torus */
 .wireframe-torus-container {
@@ -536,9 +581,26 @@
   border-bottom-width: 2px;
 }
 
-.icosa-face:nth-child(1) { transform: rotateY(0deg) translateZ(55px); }
-.icosa-face:nth-child(2) { transform: rotateY(120deg) translateZ(55px); }
-.icosa-face:nth-child(3) { transform: rotateY(240deg) translateZ(55px); }
+.icosa-face:nth-child(1) { transform: rotateY(0deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(2) { transform: rotateY(36deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(3) { transform: rotateY(72deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(4) { transform: rotateY(108deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(5) { transform: rotateY(144deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(6) { transform: rotateY(180deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(7) { transform: rotateY(216deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(8) { transform: rotateY(252deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(9) { transform: rotateY(288deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(10) { transform: rotateY(324deg) rotateX(0deg) translateZ(55px); }
+.icosa-face:nth-child(11) { transform: rotateY(18deg) rotateX(63.4deg) translateZ(55px); }
+.icosa-face:nth-child(12) { transform: rotateY(54deg) rotateX(63.4deg) translateZ(55px); }
+.icosa-face:nth-child(13) { transform: rotateY(90deg) rotateX(63.4deg) translateZ(55px); }
+.icosa-face:nth-child(14) { transform: rotateY(126deg) rotateX(63.4deg) translateZ(55px); }
+.icosa-face:nth-child(15) { transform: rotateY(162deg) rotateX(63.4deg) translateZ(55px); }
+.icosa-face:nth-child(16) { transform: rotateY(198deg) rotateX(-63.4deg) translateZ(55px); }
+.icosa-face:nth-child(17) { transform: rotateY(234deg) rotateX(-63.4deg) translateZ(55px); }
+.icosa-face:nth-child(18) { transform: rotateY(270deg) rotateX(-63.4deg) translateZ(55px); }
+.icosa-face:nth-child(19) { transform: rotateY(306deg) rotateX(-63.4deg) translateZ(55px); }
+.icosa-face:nth-child(20) { transform: rotateY(342deg) rotateX(-63.4deg) translateZ(55px); }
 
 @keyframes wireframe-rotate {
   0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
