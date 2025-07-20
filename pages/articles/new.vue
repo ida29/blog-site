@@ -112,10 +112,10 @@
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">プレビュー</h2>
         <div class="prose dark:prose-invert max-w-none">
-          <h1 class="text-2xl font-bold mb-4 flex items-center gap-3">
-            <span class="text-4xl">{{ article.emoji }}</span>
-            {{ article.title || 'タイトル' }}
-          </h1>
+          <div class="text-center mb-6">
+            <div class="text-6xl mb-4">{{ article.emoji }}</div>
+            <h1 class="text-2xl font-bold">{{ article.title || 'タイトル' }}</h1>
+          </div>
           <p class="text-gray-600 dark:text-gray-400 mb-4">{{ article.excerpt || '概要' }}</p>
           <div v-html="renderedContent" class="prose-pre:bg-gray-900 prose-pre:text-gray-100"></div>
           <div v-if="article.tags" class="mt-4">

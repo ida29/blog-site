@@ -27,10 +27,10 @@
               </button>
             </div>
           </div>
-          <h1 class="text-3xl md:text-4xl font-bold mb-4 flex items-center gap-4">
-            <span class="text-5xl">{{ article.emoji || '📝' }}</span>
-            {{ article.title }}
-          </h1>
+          <div class="text-center mb-6">
+            <div class="text-8xl mb-4">{{ article.emoji || '📝' }}</div>
+            <h1 class="text-3xl md:text-4xl font-bold">{{ article.title }}</h1>
+          </div>
           <p class="text-lg text-blue-100 mb-6">{{ article.excerpt }}</p>
           
           <div class="flex flex-wrap items-center gap-4 text-sm">
@@ -207,10 +207,24 @@
                 <button
                   type="button"
                   @click="showEditEmojiPicker = !showEditEmojiPicker"
-                  class="w-full h-[42px] text-2xl border border-gray-300 dark:border-gray-600 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700 transition duration-200"
+                  class="w-full h-[42px] text-2xl border border-gray-300 dark:border-gray-600 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700 transition duration-200 relative"
                 >
                   {{ editForm.emoji }}
                 </button>
+                <!-- 絵文字ピッカー -->
+                <div v-if="showEditEmojiPicker" class="absolute z-20 mt-2 p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
+                  <div class="grid grid-cols-8 gap-2 max-w-sm">
+                    <button
+                      v-for="emoji in popularEmojis"
+                      :key="emoji"
+                      type="button"
+                      @click="selectEditEmoji(emoji)"
+                      class="text-2xl p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition duration-200"
+                    >
+                      {{ emoji }}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -285,31 +299,16 @@
               </button>
             </div>
           </form>
-          
-          <!-- 絵文字ピッカー -->
-          <div v-if="showEditEmojiPicker" class="mt-3 p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
-            <div class="grid grid-cols-8 gap-2">
-              <button
-                v-for="emoji in popularEmojis"
-                :key="emoji"
-                type="button"
-                @click="selectEditEmoji(emoji)"
-                class="text-2xl p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition duration-200"
-              >
-                {{ emoji }}
-              </button>
-            </div>
-          </div>
         </div>
         
         <!-- プレビュー -->
         <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">プレビュー</h3>
           <div class="prose dark:prose-invert max-w-none">
-            <h1 class="text-2xl font-bold mb-4 flex items-center gap-3">
-              <span class="text-4xl">{{ editForm.emoji }}</span>
-              {{ editForm.title || 'タイトル' }}
-            </h1>
+            <div class="text-center mb-6">
+              <div class="text-6xl mb-4">{{ editForm.emoji }}</div>
+              <h1 class="text-2xl font-bold">{{ editForm.title || 'タイトル' }}</h1>
+            </div>
             <p class="text-gray-600 dark:text-gray-400 mb-4">{{ editForm.excerpt || '概要' }}</p>
             <div v-html="editPreviewContent" class="prose-pre:bg-gray-900 prose-pre:text-gray-100"></div>
             <div v-if="editForm.tags" class="mt-4">
