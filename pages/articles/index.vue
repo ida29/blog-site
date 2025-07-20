@@ -113,21 +113,12 @@
                 </div>
               </div>
               
-              <div class="flex items-center gap-3">
-                <button
-                  v-if="isAdmin"
-                  @click="handleDelete(article.id)"
-                  class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-sm"
-                >
-                  削除
-                </button>
-                <NuxtLink
-                  :to="`/articles/${article.id}`"
-                  class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm"
-                >
-                  続きを読む →
-                </NuxtLink>
-              </div>
+              <NuxtLink
+                :to="`/articles/${article.id}`"
+                class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm"
+              >
+                続きを読む →
+              </NuxtLink>
             </div>
           </div>
         </article>
@@ -142,7 +133,7 @@
 </template>
 
 <script setup>
-const { getPublishedArticles, getAllTags, deleteArticle } = useArticles()
+const { getPublishedArticles, getAllTags } = useArticles()
 const { user, isAdmin } = useAuth()
 
 const searchQuery = ref('')
@@ -204,23 +195,6 @@ const filteredArticles = computed(() => {
 
   return filtered
 })
-
-// 記事削除処理
-const handleDelete = async (articleId) => {
-  if (!confirm('この記事を削除しますか？この操作は取り消すことができません。')) {
-    return
-  }
-  
-  try {
-    await deleteArticle(articleId)
-    // 削除後に記事一覧を再取得
-    const updatedArticles = await getPublishedArticles()
-    articles.value = updatedArticles
-  } catch (error) {
-    console.error('記事の削除に失敗しました:', error)
-    alert('記事の削除に失敗しました')
-  }
-}
 
 // 日付フォーマット
 const formatDate = (dateString) => {
