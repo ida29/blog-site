@@ -11,25 +11,8 @@ export const useReactions = () => {
   ]
 
   // リアクションデータを取得
-  const getReactions = async (articleId: string | number) => {
-    if ($supabase) {
-      try {
-        const { data } = await $supabase
-          .from('article_reactions')
-          .select('reaction_type, count')
-          .eq('article_id', articleId)
-        
-        const reactions: Record<string, number> = {}
-        data?.forEach(item => {
-          reactions[item.reaction_type] = item.count
-        })
-        return reactions
-      } catch (error) {
-        console.error('Error fetching reactions:', error)
-      }
-    }
-    
-    // フォールバック: localStorage
+  const getReactions = (articleId: string | number) => {
+    // localStorage only (Supabase integration can be added later)
     if (process.client) {
       const reactions = localStorage.getItem(`reactions_${articleId}`)
       return reactions ? JSON.parse(reactions) : {}

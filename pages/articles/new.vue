@@ -104,6 +104,7 @@ definePageMeta({
 })
 
 const router = useRouter()
+const { createArticle } = useArticles()
 
 const article = ref({
   title: '',
@@ -113,37 +114,45 @@ const article = ref({
 })
 
 const handleSubmit = async () => {
-  const now = new Date()
-  const articleData = {
-    id: Date.now(),
-    title: article.value.title,
-    excerpt: article.value.excerpt,
-    content: article.value.content,
-    tags: article.value.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-    date: now.toISOString().split('T')[0],
-    status: 'published'
+  try {
+    const now = new Date()
+    const articleData = {
+      title: article.value.title,
+      excerpt: article.value.excerpt,
+      content: article.value.content,
+      tags: article.value.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+      date: now.toISOString().split('T')[0],
+      status: 'published'
+    }
+    
+    // 実際の投稿処理
+    await createArticle(articleData)
+    
+    // 投稿後にリダイレクト
+    await router.push('/articles')
+  } catch (error) {
+    console.error('記事の投稿に失敗しました:', error)
+    alert('記事の投稿に失敗しました。もう一度お試しください。')
   }
-  
-  // ここで実際の投稿処理を行う
-  console.log('記事を投稿:', articleData)
-  
-  // 投稿後にリダイレクト
-  await router.push('/articles')
 }
 
-const saveDraft = () => {
-  const draftData = {
-    id: Date.now(),
-    title: article.value.title,
-    excerpt: article.value.excerpt,
-    content: article.value.content,
-    tags: article.value.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-    date: new Date().toISOString().split('T')[0],
-    status: 'draft'
+const saveDraft = async () => {
+  try {
+    const draftData = {
+      title: article.value.title,
+      excerpt: article.value.excerpt,
+      content: article.value.content,
+      tags: article.value.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+      date: new Date().toISOString().split('T')[0],
+      status: 'draft'
+    }
+    
+    // 下書き保存処理
+    await createArticle(draftData)
+    alert('下書きを保存しました')
+  } catch (error) {
+    console.error('下書きの保存に失敗しました:', error)
+    alert('下書きの保存に失敗しました。もう一度お試しください。')
   }
-  
-  // 下書き保存処理
-  console.log('下書きを保存:', draftData)
-  alert('下書きを保存しました')
 }
 </script>
