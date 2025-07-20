@@ -13,12 +13,12 @@
               ← 記事一覧に戻る
             </NuxtLink>
             <div v-if="isAdmin" class="flex gap-2">
-              <NuxtLink
-                :to="`/articles/${article.id}/edit`"
+              <button
+                @click="openEditModal"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm transition duration-200"
               >
                 編集
-              </NuxtLink>
+              </button>
               <button
                 @click="showDeleteConfirm = true"
                 class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition duration-200"
@@ -161,6 +161,132 @@
       </div>
     </div>
   </div>
+
+  <!-- 編集モーダル -->
+  <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg max-w-6xl w-full max-h-[90vh] overflow-hidden">
+      <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6">
+        <div class="flex justify-between items-center">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">記事を編集</h2>
+          <button
+            @click="showEditModal = false"
+            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+        <!-- 編集フォーム -->
+        <div>
+          <form @submit.prevent="handleEdit" class="space-y-6">
+            <div>
+              <label for="edit-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                タイトル
+              </label>
+              <input
+                id="edit-title"
+                v-model="editForm.title"
+                type="text"
+                required
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                placeholder="記事のタイトルを入力"
+              />
+            </div>
+            
+            <div>
+              <label for="edit-excerpt" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                概要
+              </label>
+              <textarea
+                id="edit-excerpt"
+                v-model="editForm.excerpt"
+                rows="3"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                placeholder="記事の概要を入力"
+              ></textarea>
+            </div>
+            
+            <div>
+              <label for="edit-content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                本文
+              </label>
+              <textarea
+                id="edit-content"
+                v-model="editForm.content"
+                rows="12"
+                required
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                placeholder="記事の本文をMarkdown形式で入力"
+              ></textarea>
+            </div>
+            
+            <div>
+              <label for="edit-tags" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                タグ
+              </label>
+              <input
+                id="edit-tags"
+                v-model="editForm.tags"
+                type="text"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                placeholder="タグをカンマ区切りで入力"
+              />
+            </div>
+            
+            <div>
+              <label for="edit-status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                ステータス
+              </label>
+              <select
+                id="edit-status"
+                v-model="editForm.status"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="published">公開</option>
+                <option value="draft">下書き</option>
+              </select>
+            </div>
+            
+            <div class="flex gap-3">
+              <button
+                type="button"
+                @click="showEditModal = false"
+                class="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 py-2 px-4 rounded-md hover:bg-gray-400 dark:hover:bg-gray-700 transition duration-200"
+              >
+                キャンセル
+              </button>
+              <button
+                type="submit"
+                :disabled="saving"
+                class="flex-1 bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {{ saving ? '保存中...' : '更新する' }}
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <!-- プレビュー -->
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">プレビュー</h3>
+          <div class="prose dark:prose-invert max-w-none">
+            <h1 class="text-2xl font-bold mb-4">{{ editForm.title || 'タイトル' }}</h1>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">{{ editForm.excerpt || '概要' }}</p>
+            <div v-html="editPreviewContent" class="prose-pre:bg-gray-900 prose-pre:text-gray-100"></div>
+            <div v-if="editForm.tags" class="mt-4">
+              <span v-for="tag in editForm.tags.split(',').map(t => t.trim()).filter(Boolean)" :key="tag" class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded mr-2 mb-2">
+                {{ tag }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -168,12 +294,21 @@ import { marked } from 'marked'
 
 const route = useRoute()
 const router = useRouter()
-const { getArticle, getRelatedArticles, deleteArticle } = useArticles()
+const { getArticle, getRelatedArticles, deleteArticle, updateArticle } = useArticles()
 const { user, isAdmin } = useAuth()
 const article = ref(null)
 const relatedArticles = ref([])
 const renderedContent = ref('')
 const showDeleteConfirm = ref(false)
+const showEditModal = ref(false)
+const editForm = ref({
+  title: '',
+  excerpt: '',
+  content: '',
+  tags: '',
+  status: 'published'
+})
+const saving = ref(false)
 
 onMounted(async () => {
   const articleId = route.params.id
@@ -224,6 +359,72 @@ const handleDelete = async () => {
     alert('記事の削除に失敗しました')
   }
 }
+
+// 編集モーダルを開く
+const openEditModal = () => {
+  editForm.value = {
+    title: article.value.title,
+    excerpt: article.value.excerpt,
+    content: article.value.content,
+    tags: article.value.tags ? article.value.tags.join(', ') : '',
+    status: article.value.status || 'published'
+  }
+  showEditModal.value = true
+}
+
+// 編集を保存
+const handleEdit = async () => {
+  try {
+    saving.value = true
+    
+    const updateData = {
+      title: editForm.value.title,
+      excerpt: editForm.value.excerpt,
+      content: editForm.value.content,
+      tags: editForm.value.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+      status: editForm.value.status
+    }
+    
+    await updateArticle(article.value.id, updateData)
+    
+    // 記事を再取得
+    const updatedArticle = await getArticle(article.value.id)
+    if (updatedArticle) {
+      article.value = updatedArticle
+      // マークダウンを再レンダリング
+      if (updatedArticle.content) {
+        const rawHtml = marked(updatedArticle.content)
+        if (process.client) {
+          const DOMPurify = (await import('dompurify')).default
+          renderedContent.value = DOMPurify.sanitize(rawHtml)
+        } else {
+          renderedContent.value = rawHtml
+        }
+      }
+    }
+    
+    showEditModal.value = false
+    alert('記事を更新しました')
+  } catch (error) {
+    console.error('記事の更新に失敗しました:', error)
+    alert('記事の更新に失敗しました。もう一度お試しください。')
+  } finally {
+    saving.value = false
+  }
+}
+
+// 編集プレビューのMarkdownレンダリング
+const editPreviewContent = computed(() => {
+  if (!editForm.value?.content) return ''
+  const rawHtml = marked(editForm.value.content)
+  if (process.client) {
+    const DOMPurify = window.DOMPurify || {}
+    if (DOMPurify.sanitize) {
+      return DOMPurify.sanitize(rawHtml)
+    }
+  }
+  return rawHtml
+})
 
 // 日付フォーマット
 const formatDate = (dateString) => {
