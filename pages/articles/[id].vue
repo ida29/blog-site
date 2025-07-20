@@ -1,25 +1,6 @@
 <template>
-  <div v-if="article" class="container mx-auto px-6 py-8 relative">
-    <!-- Space Background Elements -->
-    <div class="absolute top-20 right-5 planet planet-green opacity-20" style="animation: float 10s ease-in-out infinite;"></div>
-    <div class="absolute bottom-40 left-5 planet planet-orange opacity-25" style="animation: float 7s ease-in-out infinite reverse;"></div>
-    <div class="absolute top-60 left-20 satellite opacity-30" style="animation-delay: -2s;"></div>
-    
-    <!-- Mini Orbital System -->
-    <div class="absolute top-10 left-10 opacity-20" style="width: 150px; height: 150px;">
-      <div class="orbit-path" style="width: 100px; height: 100px; top: 25px; left: 25px;"></div>
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-yellow-200 rounded-full"></div>
-      <div style="animation: orbit-fast 8s linear infinite;">
-        <div class="w-2 h-2 bg-blue-400 rounded-full absolute" style="top: 23px; left: 48px;"></div>
-      </div>
-    </div>
-    
-    <!-- Scattered Stars -->
-    <div class="star opacity-50" style="top: 25%; left: 85%; width: 1px; height: 1px;"></div>
-    <div class="star opacity-30" style="top: 60%; left: 15%; width: 1.5px; height: 1.5px; animation-delay: 1.5s;"></div>
-    <div class="star opacity-60" style="top: 80%; left: 90%; width: 1px; height: 1px; animation-delay: 0.8s;"></div>
-    
-    <div class="max-w-7xl mx-auto relative z-10">
+  <div v-if="article" class="container mx-auto px-6 py-8">
+    <div class="max-w-7xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- メインコンテンツ -->
         <div class="lg:col-span-3">

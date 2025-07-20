@@ -1,16 +1,6 @@
 <template>
-  <div class="container mx-auto px-6 py-8 relative">
-    <!-- Space Background Elements -->
-    <div class="absolute top-10 right-10 planet planet-blue opacity-30" style="animation: float 8s ease-in-out infinite;"></div>
-    <div class="absolute bottom-20 left-20 planet planet-purple opacity-25" style="animation: float 6s ease-in-out infinite reverse;"></div>
-    <div class="absolute top-40 left-10 satellite opacity-40"></div>
-    
-    <!-- Stars -->
-    <div class="star opacity-60" style="top: 15%; left: 25%; width: 1px; height: 1px;"></div>
-    <div class="star opacity-40" style="top: 70%; left: 80%; width: 1.5px; height: 1.5px; animation-delay: 2s;"></div>
-    <div class="star opacity-70" style="top: 30%; left: 75%; width: 1px; height: 1px; animation-delay: 1s;"></div>
-    
-    <div class="max-w-6xl mx-auto relative z-10">
+  <div class="container mx-auto px-6 py-8">
+    <div class="max-w-6xl mx-auto">
       <!-- ヘッダー -->
       <div class="flex items-center justify-between mb-8">
         <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200">記事一覧</h1>
