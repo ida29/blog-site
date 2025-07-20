@@ -7,14 +7,15 @@
       <div class="absolute inset-0 bg-gradient-to-br from-transparent via-blue-500/10 to-purple-500/10 animate-pulse"></div>
       
       <div class="container mx-auto px-6 text-center relative z-10">
-        <h1 class="text-6xl font-bold mb-6 neon-text" style="animation: fade-in-up 1s ease-out;">
+        <img src="/26829774.jpg" alt="yida's GitHub profile" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-white shadow-2xl" style="animation: fade-in-up 1s ease-out;">
+        <h1 class="text-6xl font-bold mb-6 neon-text" style="animation: fade-in-up 1s ease-out 0.2s both;">
           Welcome to yida's tech blog
         </h1>
-        <p class="text-xl mb-8 max-w-2xl mx-auto glass-effect rounded-lg p-6" style="animation: fade-in-up 1s ease-out 0.3s both;">
+        <p class="text-xl mb-8 max-w-2xl mx-auto glass-effect rounded-lg p-6" style="animation: fade-in-up 1s ease-out 0.5s both;">
           エンジニアyidaが技術に関する学びや体験を共有するブログです。
           Web開発、プログラミング、新技術の探求について発信しています。
         </p>
-        <div class="space-x-4" style="animation: fade-in-up 1s ease-out 0.6s both;">
+        <div class="space-x-4" style="animation: fade-in-up 1s ease-out 0.8s both;">
           <NuxtLink to="/articles" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:scale-110 hover:shadow-2xl transition duration-300 transform hover:rotate-1" style="animation: pulse-glow 3s ease-in-out infinite;">
             記事を読む
           </NuxtLink>
