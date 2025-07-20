@@ -12,13 +12,20 @@
             <NuxtLink to="/articles" class="text-blue-100 hover:text-white transition duration-200">
               ← 記事一覧に戻る
             </NuxtLink>
-            <button
-              v-if="isAdmin"
-              @click="showDeleteConfirm = true"
-              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition duration-200"
-            >
-              削除
-            </button>
+            <div v-if="isAdmin" class="flex gap-2">
+              <NuxtLink
+                :to="`/articles/${article.id}/edit`"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm transition duration-200"
+              >
+                編集
+              </NuxtLink>
+              <button
+                @click="showDeleteConfirm = true"
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition duration-200"
+              >
+                削除
+              </button>
+            </div>
           </div>
           <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ article.title }}</h1>
           <p class="text-lg text-blue-100 mb-6">{{ article.excerpt }}</p>

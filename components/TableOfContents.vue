@@ -1,13 +1,14 @@
 <template>
-  <div v-if="headings.length > 0" class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md sticky top-4">
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-      </svg>
-      目次
-    </h3>
-    
-    <nav class="space-y-1">
+  <div v-if="headings.length > 0" class="lg:sticky lg:top-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+        </svg>
+        目次
+      </h3>
+      
+      <nav class="space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto">
       <a
         v-for="heading in headings"
         :key="heading.id"
@@ -24,6 +25,7 @@
         {{ heading.text }}
       </a>
     </nav>
+    </div>
   </div>
 </template>
 
