@@ -22,41 +22,11 @@ export const useReactions = () => {
     return sessionId
   }
 
-  // Supabaseが利用できない場合のローカルストレージ実装
-  const localStorageReactions = {
-    getReactions: (articleId: string | number) => {
-      if (process.client) {
-        const reactions = localStorage.getItem(`reactions_${articleId}`)
-        return reactions ? JSON.parse(reactions) : {}
-      }
-      return {}
-    },
-    
-    saveReactions: (articleId: string | number, reactions: Record<string, number>) => {
-      if (process.client) {
-        localStorage.setItem(`reactions_${articleId}`, JSON.stringify(reactions))
-      }
-    },
-    
-    getUserReactions: (articleId: string | number) => {
-      if (process.client) {
-        const userReactions = localStorage.getItem(`user_reactions_${articleId}`)
-        return userReactions ? JSON.parse(userReactions) : []
-      }
-      return []
-    },
-    
-    saveUserReactions: (articleId: string | number, userReactions: string[]) => {
-      if (process.client) {
-        localStorage.setItem(`user_reactions_${articleId}`, JSON.stringify(userReactions))
-      }
-    }
-  }
-
   // リアクションデータを取得
   const getReactions = async (articleId: string | number) => {
     if (!$supabase || !$supabase.from) {
-      return localStorageReactions.getReactions(articleId)
+      console.warn('Supabaseが利用できません')
+      return {}
     }
 
     try {
@@ -78,14 +48,15 @@ export const useReactions = () => {
       return reactions
     } catch (error) {
       console.error('リアクション取得エラー:', error)
-      return localStorageReactions.getReactions(articleId)
+      throw error
     }
   }
 
   // ユーザーのリアクション履歴を取得
   const getUserReactions = async (articleId: string | number) => {
     if (!$supabase || !$supabase.from) {
-      return localStorageReactions.getUserReactions(articleId)
+      console.warn('Supabaseが利用できません')
+      return []
     }
 
     try {
@@ -110,28 +81,15 @@ export const useReactions = () => {
       return data ? data.map((item: any) => item.reaction_type) : []
     } catch (error) {
       console.error('ユーザーリアクション取得エラー:', error)
-      return localStorageReactions.getUserReactions(articleId)
+      throw error
     }
   }
 
   // リアクションを追加
   const addReaction = async (articleId: string | number, reactionName: string) => {
     if (!$supabase || !$supabase.from) {
-      // LocalStorageフォールバック
-      const reactions = localStorageReactions.getReactions(articleId)
-      const userReactions = localStorageReactions.getUserReactions(articleId)
-      
-      if (userReactions.includes(reactionName)) {
-        return false
-      }
-      
-      reactions[reactionName] = (reactions[reactionName] || 0) + 1
-      userReactions.push(reactionName)
-      
-      localStorageReactions.saveReactions(articleId, reactions)
-      localStorageReactions.saveUserReactions(articleId, userReactions)
-      
-      return true
+      console.warn('Supabaseが利用できません')
+      return false
     }
 
     try {
@@ -163,35 +121,15 @@ export const useReactions = () => {
       return true
     } catch (error) {
       console.error('リアクション追加エラー:', error)
-      return false
+      throw error
     }
   }
 
   // リアクションを削除
   const removeReaction = async (articleId: string | number, reactionName: string) => {
     if (!$supabase || !$supabase.from) {
-      // LocalStorageフォールバック
-      const reactions = localStorageReactions.getReactions(articleId)
-      const userReactions = localStorageReactions.getUserReactions(articleId)
-      
-      const reactionIndex = userReactions.indexOf(reactionName)
-      if (reactionIndex === -1) {
-        return false
-      }
-      
-      if (reactions[reactionName] && reactions[reactionName] > 0) {
-        reactions[reactionName] -= 1
-        if (reactions[reactionName] === 0) {
-          delete reactions[reactionName]
-        }
-      }
-      
-      userReactions.splice(reactionIndex, 1)
-      
-      localStorageReactions.saveReactions(articleId, reactions)
-      localStorageReactions.saveUserReactions(articleId, userReactions)
-      
-      return true
+      console.warn('Supabaseが利用できません')
+      return false
     }
 
     try {
@@ -217,7 +155,7 @@ export const useReactions = () => {
       return true
     } catch (error) {
       console.error('リアクション削除エラー:', error)
-      return false
+      throw error
     }
   }
 
