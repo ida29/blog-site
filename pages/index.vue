@@ -12,8 +12,6 @@
           Welcome to yida's tech blog
         </h1>
         <p class="text-xl mb-8 max-w-2xl mx-auto glass-effect rounded-lg p-6" style="animation: fade-in-up 1s ease-out 0.5s both;">
-          エンジニアyidaが技術に関する学びや体験を共有するブログです。
-          Web開発、プログラミング、新技術の探求について発信しています。
         </p>
         <div class="space-x-4" style="animation: fade-in-up 1s ease-out 0.8s both;">
           <NuxtLink to="/articles" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:scale-110 hover:shadow-2xl transition duration-300 transform hover:rotate-1" style="animation: pulse-glow 3s ease-in-out infinite;">

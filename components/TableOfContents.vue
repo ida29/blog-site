@@ -1,6 +1,6 @@
 <template>
-  <div v-if="headings.length > 0" class="lg:sticky lg:top-6">
-    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md">
+  <div v-if="headings.length > 0" class="sticky top-4 z-20">
+    <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg p-4 shadow-lg border border-gray-200 dark:border-gray-700">
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
@@ -8,7 +8,7 @@
         目次
       </h3>
       
-      <nav class="space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto">
+      <nav class="space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
       <a
         v-for="heading in headings"
         :key="heading.id"
