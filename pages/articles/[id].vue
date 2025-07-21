@@ -117,8 +117,8 @@
         </div>
 
         <!-- サイドバー -->
-        <div class="lg:col-span-1">
-          <div class="space-y-6">
+        <div class="lg:col-span-1 relative">
+          <div class="lg:sticky lg:top-4">
             <!-- 目次 -->
             <TableOfContents :content="article.content" />
           </div>

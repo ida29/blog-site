@@ -77,19 +77,18 @@
 
       <!-- 記事一覧 -->
       <div v-else class="grid gap-6">
-        <article
+        <NuxtLink
           v-for="(article, index) in filteredArticles"
           :key="article.id"
-          class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200 card-3d glass-effect hover:scale-105"
+          :to="`/articles/${article.id}`"
+          class="block bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200 card-3d glass-effect hover:scale-105 cursor-pointer"
           :style="`animation: fade-in-up 0.6s ease-out ${index * 0.1}s both;`"
         >
           <div class="p-6">
             <div class="text-center mb-4">
               <div class="text-5xl mb-3">{{ article.emoji || '📝' }}</div>
               <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2 hover:text-blue-600 dark:hover:text-blue-400">
-                <NuxtLink :to="`/articles/${article.id}`">
-                  {{ article.title }}
-                </NuxtLink>
+                {{ article.title }}
               </h2>
               <p class="text-gray-600 dark:text-gray-400 mb-4">{{ article.excerpt }}</p>
             </div>
@@ -101,8 +100,8 @@
                   <span
                     v-for="tag in article.tags.slice(0, 3)"
                     :key="tag"
-                    class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-800"
-                    @click="selectedTag = tag"
+                    class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs hover:bg-blue-200 dark:hover:bg-blue-800"
+                    @click.prevent="selectedTag = tag"
                   >
                     {{ tag }}
                   </span>
@@ -111,16 +110,9 @@
                   </span>
                 </div>
               </div>
-              
-              <NuxtLink
-                :to="`/articles/${article.id}`"
-                class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm"
-              >
-                続きを読む →
-              </NuxtLink>
             </div>
           </div>
-        </article>
+        </NuxtLink>
       </div>
 
       <!-- ページネーション（将来の拡張用） -->

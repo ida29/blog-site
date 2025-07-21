@@ -1,5 +1,5 @@
 <template>
-  <div v-if="headings.length > 0" class="sticky top-4 z-20">
+  <div v-if="headings.length > 0">
     <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg p-4 shadow-lg border border-gray-200 dark:border-gray-700">
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
