@@ -75,19 +75,23 @@
           <p class="text-gray-600 dark:text-gray-400">まだ記事がありません。最初の記事を投稿してみましょう！</p>
         </div>
         <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <article v-for="article in recentArticles" :key="article.id" class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
-            <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500"></div>
+          <NuxtLink 
+            v-for="article in recentArticles" 
+            :key="article.id" 
+            :to="`/articles/${article.id}`"
+            class="block bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200 cursor-pointer hover:scale-105"
+          >
+            <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+              <div class="text-6xl">{{ article.emoji || '📝' }}</div>
+            </div>
             <div class="p-6">
               <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">{{ article.title }}</h3>
               <p class="text-gray-600 dark:text-gray-400 mb-4">{{ article.excerpt }}</p>
               <div class="flex items-center justify-between">
                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(article.published_at || article.created_at || article.date) }}</span>
-                <NuxtLink :to="`/articles/${article.id}`" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
-                  続きを読む →
-                </NuxtLink>
               </div>
             </div>
-          </article>
+          </NuxtLink>
         </div>
         <div class="text-center mt-12">
           <NuxtLink to="/articles" class="bg-blue-600 dark:bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-200">
